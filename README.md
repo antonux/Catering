@@ -18,10 +18,22 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 - **Admin Dashboard**: For managing inquiries, reservations, and customer interactions (future feature).
 
 ## Tech Stack
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js
-- **Database**: MongoDB (NoSQL)
-- **Other**: GitHub for version control, GitHub Actions for CI/CD (optional)
+
+### Frontend
+- ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+- ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+- ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+### Backend
+- ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+### Database
+- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+
+### Other
+- ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) (Version Control)
+- ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white) (CI/CD)
 
 ## Setup and Installation
 
@@ -29,3 +41,8 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 - [Node.js](https://nodejs.org/) installed
 - [MongoDB](https://www.mongodb.com/) or a hosted MongoDB database
 
+### Steps
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/virtucio-caterers-reservation-system.git
+   cd virtucio-caterers-reservation-system
