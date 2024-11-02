@@ -1,12 +1,3 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
 # Virtucio Caterers Reservation System
 
 ## Overview
@@ -18,10 +9,22 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 - **Admin Dashboard**: For managing inquiries, reservations, and customer interactions (future feature).
 
 ## Tech Stack
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js
-- **Database**: MongoDB (NoSQL)
-- **Other**: GitHub for version control, GitHub Actions for CI/CD (optional)
+
+### Frontend
+- ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+- ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
+- ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+- ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+### Backend
+- ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+### Database
+- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+
+### Other
+- ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) (Version Control)
+- ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white) (CI/CD)
 
 ## Setup and Installation
 
@@ -29,3 +32,7 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 - [Node.js](https://nodejs.org/) installed
 - [MongoDB](https://www.mongodb.com/) or a hosted MongoDB database
 
+### Steps
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/antonux/Catering.git
