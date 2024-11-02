@@ -10,7 +10,7 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 
 ## Tech Stack
 - **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express, Firebase Authentication (or other preferred auth solution)
+- **Backend**: Node.js
 - **Database**: MongoDB (NoSQL)
 - **Other**: GitHub for version control, GitHub Actions for CI/CD (optional)
 
