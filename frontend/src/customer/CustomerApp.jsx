@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // pages & components
 import Home from './pages/home'
 import Navbar from './components/navbar'
-import Navy from './components/navy'
 
 
 export default function App() {

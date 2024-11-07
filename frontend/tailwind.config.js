@@ -9,6 +9,7 @@ export default {
        fontFamily: {
         'jomolhari': ['Jomolhari', 'serif'],
         'roboto': ['Roboto', 'sans-serif'],
+        'ephesis': ['Ephesis', 'cursive'],
       },
     },
   },
