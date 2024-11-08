@@ -10,6 +10,7 @@ export default {
         'jomolhari': ['Jomolhari', 'serif'],
         'roboto': ['Roboto', 'sans-serif'],
         'ephesis': ['Ephesis', 'cursive'],
+        'sail': ['Sail', 'cursive'],
       },
     },
   },
