@@ -11,7 +11,7 @@ const menuHome = () => {
       <div className="absolute top-0 translate-y-14 left-0 bg-gradient-to-r from-[#f6edd8] to-[#39221c] h-[2px] w-[40%]"></div>
       <div className="absolute top-0 translate-y-14 right-0 bg-gradient-to-l from-[#f6edd8] to-[#39221c] h-[2px] w-[40%]"></div>
 
-      <div className="font-roboto mt-4 gap-16 text-center flex w-full justify-center">
+      <div className="font-roboto font-light mt-4 gap-16 text-center flex w-full justify-center">
         <div className="relative w-[16rem] h-full bg-[#fffff9] flex flex-col justify-center shadow-lg items-center rounded-[2.5rem]">
           <div className="h-[14.5rem]">
             <img className="size-full object-cover" src={soupHome}></img>
