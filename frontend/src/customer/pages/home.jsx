@@ -7,7 +7,7 @@ import MenuHome from '../components/menuHome'
 
 const home = () => {
 	return (
-		<div className="home flex flex-col items-center pb-32">
+		<div className="flex flex-col items-center pb-32">
 			{/* intro */}
 				<IntroHome />
 			{/* intro */}

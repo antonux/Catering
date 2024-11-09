@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.home {
+.line-bg {
     background-color: #ffffff;
     opacity: 1;
     background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 12px), repeating-linear-gradient(#efefef55, #efefef);
@@ -13,4 +13,10 @@
     opacity: 1;
     background-image: radial-gradient(#bec1ff 0.5px, #f6edd8 0.5px);
     background-size: 10px 10px;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

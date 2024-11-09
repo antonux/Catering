@@ -18,7 +18,7 @@ const missionVisionHome = () => {
 								</h1>
 								<div className="absolute bottom-0 translate-y-[-23px] bg-gradient-to-l from-[#e9e9e9] to-[#a57c00] h-[2px] w-[60%] right-0"></div>
 							</div>
-							<p className='bg-[#ffffff33] shadow-sm p-2 pt-4 text-justify w-[20rem] font-roboto text-sm md:text-base h-[200px] md:w-[490px] rounded-lg'>At our catering service, we are driven by a clear mission: to craft unforgettable culinary experiences that delight our clients and their guests. We envision ourselves as more than just a catering company; we aim to be the trusted partner that turns every occasion into a cherished memory. With a passion for culinary excellence and a commitment to impeccable service, we strive to exceed expectations at every event we cater.</p>
+							<p className='bg-[#ffffff33] shadow-sm p-2 pt-4 text-justify w-[20rem] font-roboto font-light text-sm md:text-base h-[200px] md:w-[490px] rounded-lg'>At our catering service, we are driven by a clear mission: to craft unforgettable culinary experiences that delight our clients and their guests. We envision ourselves as more than just a catering company; we aim to be the trusted partner that turns every occasion into a cherished memory. With a passion for culinary excellence and a commitment to impeccable service, we strive to exceed expectations at every event we cater.</p>
 						</div>
 						<div className="vision">
 							<div className="relative inline-block">
@@ -27,7 +27,7 @@ const missionVisionHome = () => {
 								</h1>
 								<div className="absolute bottom-0 translate-y-[-23px] bg-gradient-to-l from-[#e9e9e9] to-[#a57c00] h-[2px] w-[63%] right-0"></div>
 							</div>
-							<p className='bg-[#ffffff33] shadow-sm p-2 pt-4 text-justify text-[#361f10] font-roboto w-[20rem] text-sm md:text-base h-[200px] md:w-[490px] rounded-lg'>At our catering service, we are driven by a clear mission: to craft unforgettable culinary experiences that delight our clients and their guests. We envision ourselves as more than just a catering company; we aim to be the trusted partner that turns every occasion into a cherished memory. With a passion for culinary excellence and a commitment to impeccable service, we strive to exceed expectations at every event we cater.</p>
+							<p className='bg-[#ffffff33] shadow-sm p-2 pt-4 text-justify text-[#361f10] font-roboto font-light w-[20rem] text-sm md:text-base h-[200px] md:w-[490px] rounded-lg'>At our catering service, we are driven by a clear mission: to craft unforgettable culinary experiences that delight our clients and their guests. We envision ourselves as more than just a catering company; we aim to be the trusted partner that turns every occasion into a cherished memory. With a passion for culinary excellence and a commitment to impeccable service, we strive to exceed expectations at every event we cater.</p>
 						</div>
 					</div>
 				</div>

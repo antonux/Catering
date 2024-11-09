@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import logo from '../../assets/images/VLOGO1.png';
+import { NavLink } from 'react-router-dom';
 
 const navbar = () => {
 
@@ -29,6 +30,13 @@ const navbar = () => {
       window.removeEventListener('scroll', controlNavbar);
     };
   }, [lastScrollY]);
+
+  const activeLink = (isActive) =>
+  `flex items-center justify-center h-16 px-3 py-2 text-md ${
+    isActive
+      ? "text-[#191716] border-b-2 border-yellow-300"
+      : "text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300"
+  }`;
 
 
   return (
@@ -88,7 +96,7 @@ const navbar = () => {
             </div>
             <div className="flex ml-4 md:ml-2 mr-7 md:mr-0 flex-1 items-center justify-center md:items-stretch md:justify-between ">
               <div className="flex ml-12 md:ml-0 flex-shrink-0 w-full items-center justify-between md:w-auto">
-                <img className="h-10 mr-5 sm:mr-3 w-auto order-1 md:order-0" src={logo} alt="Your Company" />
+                <img className="h-11 mr-5 sm:mr-3 w-auto order-1 md:order-0" src={logo} alt="Your Company" />
                 {/* searchbar */}
                 <div className="relative ml-4 order-0 md:order-1"> {/* Add margin for spacing */}
                   <IoIosSearch className="absolute size-5 left-2 top-1/2 transform -translate-y-1/2 text-[#2a2929]" /> {/* Position the icon */}
@@ -103,11 +111,21 @@ const navbar = () => {
               </div>
               <div className="hidden md:ml-6 md:block w-auto">
                 <div className="flex space-x-5 overflow-hidden">
-                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md font-medium text-[#191716] border-b-2 border-yellow-300" aria-current="page">Home</a>
-                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md font-medium text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">About us</a>
-                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md font-medium text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Menu</a>
-                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md font-medium text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Inquire</a>
-                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md font-medium text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Contacts</a>
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) => activeLink(isActive)}
+                    >
+                    Home
+                  </NavLink>
+                  <NavLink
+                    to="/about"
+                    className={({ isActive }) => activeLink(isActive)}
+                  >
+                    About us
+                  </NavLink>
+                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Menu</a>
+                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Inquire</a>
+                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Contacts</a>
                 </div>
               </div>
 
