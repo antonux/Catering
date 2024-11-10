@@ -1,9 +1,9 @@
 // import mvPic from '../assets/images/mvPic.png';
 
 // components
-import IntroHome from '../components/introHome'
-import MissionVission from '../components/missionVisionHome'
-import MenuHome from '../components/menuHome'
+import IntroHome from '../components/homeIntro'
+import MissionVission from '../components/homeMissionVission'
+import MenuHome from '../components/homeMenu'
 
 const home = () => {
 	return (
@@ -17,7 +17,6 @@ const home = () => {
 			{/* Mission Vission */}
 
 			{/* Menu */}
-				<MenuHome />
 			{/* Menu */}
 		</div>
 	)
