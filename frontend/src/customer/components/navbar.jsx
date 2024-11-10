@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import logo from '../../assets/images/VLOGO1.png';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const navbar = () => {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+   
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
