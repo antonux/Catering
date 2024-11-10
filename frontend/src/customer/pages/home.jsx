@@ -17,6 +17,7 @@ const home = () => {
 			{/* Mission Vission */}
 
 			{/* Menu */}
+				<MenuHome />
 			{/* Menu */}
 		</div>
 	)
