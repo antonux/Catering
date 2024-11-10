@@ -38,7 +38,6 @@ const Menu = () => {
       <SideNavbar setSelectedFilter={setSelectedFilter} />
       {/* side navbar */}
 
-      {/* to be updated */}
       <div className="mb-[5rem]">
         {Object.keys(groupedMenu).map(category => (
           <div key={category}>
