@@ -1,4 +1,4 @@
-const ourMission = () => {
+ const ourMission = () => {
   return (
 			<div className="font-roboto flex flex-col text-[#222222] items-center gap-2 text-center mt-24">
 				<p className='text-base'>OUR MISSION</p>
