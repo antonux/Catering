@@ -11,6 +11,7 @@ export default {
         'roboto': ['Roboto', 'sans-serif'],
         'ephesis': ['Ephesis', 'cursive'],
         'sail': ['Sail', 'cursive'],
+        'tillana': ['Tillana', 'cursive'],
       },
     },
   },
