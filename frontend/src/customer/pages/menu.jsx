@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { motion } from "framer-motion";
 import SideNavbar from '../components/menuNavbar'
 
 const Menu = () => {
 
   // Sample menu data
   const menuItems = [
-    { id: 1, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce ddddddddddddddddddddddddddddddddddd", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-    { id: 2, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce ddddddddddddddddddddddddddddddddddd", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-    { id: 3, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce ddddddddddddddddddddddddddddddddddd", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
+    { id: 1, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
+    { id: 2, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
+    { id: 3, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
     { id: 9, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
     { id: 10, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
     { id: 11, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
@@ -43,21 +44,30 @@ const Menu = () => {
         {filteredMenu
           .filter(item => item.category.includes(category))
           .map(item => (
-            <div key={item.id} className="bg-[#f6edd8] w-[18rem] h-[20.5rem] rounded-b-md">
-              <img className="h-[13rem] w-[18rem] object-cover" src={item.image} alt={item.name} />
-              <div className="p-4 pl-5">
-                <h1 className="text-start font-roboto text-[16px] font-normal">{item.name}</h1>
-                <p className="text-start h-[2.5rem] overflow-hidden font-roboto font-light text-sm">{item.desc}</p>
+            <motion.div
+              key={item.id}
+              className="bg-[#333333] w-[18rem] h-[20.5rem] rounded-b-md"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div key={item.id} className="bg-[#333333] w-[18rem] h-[20.5rem] rounded-b-md">
+                <img className="h-[13rem] w-[18rem] object-cover" src={item.image} alt={item.name} />
+                <div className="mt-5 pb-2 pl-5 menuNavBg text-white">
+                  <h1 className="text-start text-[#fff82b] font-roboto h-[32px] text-[17px] font-normal">{item.name}</h1>
+                  <p className=" text-start h-[2.5rem] overflow-hidden font-roboto font-light text-sm">{item.desc}</p>
+                </div>
               </div>
-            </div>
+            </motion.div>
           ))}
       </div>
     </div>
   );
 
   const renderCategory = (categoryName) => {
-    return filteredMenu.some(item => item.category.includes(categoryName)) && renderSection(`-${[categoryName[0].toUpperCase(), ...categoryName.slice(1)].join('')} Dishes`, categoryName);
-};
+    return filteredMenu.some(item => item.category.includes(categoryName)) && renderSection(`${[categoryName[0].toUpperCase(), ...categoryName.slice(1)].join('')} Dishes`, categoryName);
+  };
 
 
 
@@ -68,11 +78,14 @@ const Menu = () => {
       <SideNavbar setSelectedFilter={setSelectedFilter} />
       {/* side navbar */}
 
-      <div className="mb-[5rem] text-4xl font-sail font-normal">
+      <div className="mb-[5rem] text-5xl font-sail font-normal">
 
         {/* Main Entree Section */}
         <div className={`${filteredMenu.some(item => item.category.some(cat => ["pork", "poultry", "beef", "vegetable"].includes(cat))) ? "" : "hidden"}`}>
-          <h1 className='text-[#222222]' >Main Entree</h1>
+          <h1 className="relative  w-[58rem] text-4xl lg:text-5xl font-sail font-normal text-[#222222]">
+            <span className="text-[#cac425] relative">M</span>ain Entree
+            <div className="absolute translate-y-[-23px] bg-gradient-to-l from-[#e9e9e9] to-[#a57c00] h-[2px] w-[70%] right-0"></div>
+          </h1>
           {renderCategory("pork")}
           {renderCategory("poultry")}
           {renderCategory("beef")}
@@ -81,13 +94,19 @@ const Menu = () => {
 
         {/* Soup Section */}
         <div className={`${filteredMenu.some(item => item.category.includes("soup")) ? "" : "hidden"}`}>
-          <h1 className='text-[#222222]' >Soup</h1>
+          <h1 className="relative  w-[58rem] text-4xl lg:text-5xl font-sail font-normal text-[#222222]">
+            <span className="text-[#cac425] relative">S</span>oup
+            <div className="absolute translate-y-[-23px] bg-gradient-to-l from-[#e9e9e9] to-[#a57c00] h-[2px] w-[86%] right-0"></div>
+          </h1>
           {renderSection("", "soup")}
         </div>
 
         {/* Dessert Section */}
         <div className={`${filteredMenu.some(item => item.category.includes("dessert")) ? "" : "hidden"}`}>
-          <h1 className='text-[#222222]' >Dessert/Salad</h1>
+          <h1 className="relative  w-[58rem] text-4xl lg:text-5xl font-sail font-normal text-[#222222]">
+            <span className="text-[#cac425] relative">D</span>essert/Salad
+            <div className="absolute translate-y-[-23px] bg-gradient-to-l from-[#e9e9e9] to-[#a57c00] h-[2px] w-[66%] right-0"></div>
+          </h1>
           {renderSection("", "dessert")}
         </div>
 
