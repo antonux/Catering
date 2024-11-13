@@ -7,6 +7,7 @@ import Home from './pages/home'
 // pages
 import AboutUs from './pages/aboutUs'
 import Menu from './pages/menu'
+import Request from './pages/request'
 
 // componentes
 import Navbar from './components/navbar'
@@ -34,6 +35,11 @@ export default function App() {
               <Route 
                 path="/menu"
                 element={<Menu />}
+              />
+
+              <Route 
+                path="/request"
+                element={<Request />}
               />
 
             </Routes>

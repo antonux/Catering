@@ -1,8 +1,15 @@
 import mvPic from '../assets/images/catering.png';
+import { motion } from "framer-motion";
 
 const missionVisionHome = () => {
 
   return (
+		<motion.div
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			exit={{ opacity: 0, y: -10 }}
+			transition={{ duration: .5 }}
+		>
 			<div className="flex items-center gap-28 justify-center mt-40">
 
 				<div className="w-[19rem] lg:w-[25rem] h-auto hidden md:block">
@@ -33,6 +40,7 @@ const missionVisionHome = () => {
 				</div>
 
 			</div>
+</motion.div>
 
   )
 

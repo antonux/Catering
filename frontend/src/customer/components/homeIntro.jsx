@@ -1,7 +1,14 @@
 import introPic from '../assets/images/introPic.png';
+import { motion } from "framer-motion";
 
 const introHome = () => {
-  return (
+	return (
+		<motion.div
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			exit={{ opacity: 0, y: -10 }}
+			transition={{ duration: .5 }}
+		>
 			<div className="flex items-center gap-28 justify-center mt-14">
 
 				<div className="flex flex-col items-center">
@@ -31,7 +38,8 @@ const introHome = () => {
 				</div>
 
 			</div>
-  )
+		</motion.div>
+	)
 }
 
 export default introHome
