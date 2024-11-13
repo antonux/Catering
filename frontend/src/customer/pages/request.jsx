@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
 const InquiryForm = () => {
 
-  const [isDisabled, setIsDisabled] = React.useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleDateUnsetClick = () => {
     const dateInput = document.getElementById('date');
@@ -11,16 +12,38 @@ const InquiryForm = () => {
   };
 
   const getInputClass = (isDisabled) => {
-    return `w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${isDisabled ? "text-gray-400 bg-gray-100" : ""
-      }`;
+    return `w-full h-11 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#a8602d] ${isDisabled ? "text-gray-400 bg-gray-100" : "bg-[#ebecee] placeholder-[#797575]"}`;
+  };
+  const images = [
+    "/assets/customer/images/menuMango.jpg",
+    "/assets/customer/images/menuCaldereta.jpg",
+    "/assets/customer/images/menuHumba.jpg"
+  ];
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  useEffect(() => {
+    // Auto-scroll every 3 seconds
+    const interval = setInterval(() => {
+      handleNextImage();
+    }, 3000); // 3 seconds for auto-scroll
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex items-center justify-center p-6 bg-blue-300 rounded-lg shadow-md mt-10 mb-[10rem]">
+    <div className="flex items-start gap-16 justify-center p-6 rounded-lg mt-10 mb-[10rem]">
       {/* Form Section */}
       <form
         id="r-form"
-        className="w-[35rem] bg-white p-14 rounded-lg shadow-md space-y-4"
+        className="w-[35rem] bg-white p-14 rounded-lg shadow-lg space-y-4"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -47,13 +70,12 @@ const InquiryForm = () => {
                   To be determined
                 </label>
               </div>
-
             </div>
             <input
               id="date"
               type="date"
               min="2024-01-01"
-              className={getInputClass(isDisabled)}
+              className={`${getInputClass(isDisabled)}`}
               required
             />
           </div>
@@ -68,7 +90,7 @@ const InquiryForm = () => {
               id="email"
               type="email"
               placeholder="Your email address"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`${getInputClass()} bg-[#ebecee] placeholder-[#797575]`}
               required
             />
           </div>
@@ -83,7 +105,7 @@ const InquiryForm = () => {
               id="client-name"
               type="text"
               placeholder="Your Client/Company Name"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`${getInputClass()}`}
               required
             />
           </div>
@@ -98,7 +120,7 @@ const InquiryForm = () => {
               id="people"
               type="number"
               placeholder="Your number of people"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`${getInputClass()}`}
               required
             />
           </div>
@@ -113,7 +135,7 @@ const InquiryForm = () => {
               id="mobile"
               type="number"
               placeholder="Your mobile number"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`${getInputClass()}`}
               required
             />
           </div>
@@ -128,7 +150,7 @@ const InquiryForm = () => {
               id="event-type"
               type="text"
               placeholder="The type of event"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`${getInputClass()}`}
               required
             />
           </div>
@@ -144,7 +166,7 @@ const InquiryForm = () => {
             id="event-address"
             type="text"
             placeholder="Your event address"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`${getInputClass()}`}
             required
           />
         </div>
@@ -161,32 +183,58 @@ const InquiryForm = () => {
             id="optional-message-request"
             rows="3"
             placeholder="Give a message"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`${getInputClass()} placeholder-[#797575] h-24`}
           ></textarea>
         </div>
-
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+          className="w-full bg-[#383635] text-white p-2 h-11 rounded hover:bg-[#4d4d4d] transition"
         >
           Submit
         </button>
       </form>
 
-      {/* Right Panel */}
-      <div className="md:w-1/3 w-full mt-6 md:mt-0 md:ml-6 text-center md:text-left">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Request a Catering Service
-        </h1>
-        <p className="mt-2 text-gray-600">
-          Our catering service provides a diverse range of delicious options for
-          any event, from corporate gatherings to weddings. We pride ourselves
-          on using only the freshest, highest-quality ingredients to craft
-          impressive dishes. Our experienced team tailors the service to meet
-          your specific needs and preferences.
-        </p>
+      <div className="flex flex-col">
+        {/* Right Panel */}
+        <div className="w-[35rem] mt-10  md:ml-6 text-center md:text-left">
+          <h1 className="w-full text-4xl lg:text-5xl font-sail font-normal text-[#222222]">
+            <span className="text-[#a57c00]">R</span>equest a Catering Service
+          </h1>
+          <p className="mt-2 text-[#000000] tracking-wide text-lg font-light text-justify">
+            Our catering service provides a diverse range of delicious options for
+            any event, from corporate gatherings to weddings. We pride ourselves
+            on using only the freshest, highest-quality ingredients to craft
+            impressive dishes. Our experienced team tailors the service to meet
+            your specific needs and preferences.
+          </p>
+        </div>
+        {/* Slideshow */}
+        <div className="w-[35rem] mt-10 ml-6">
+      <div className="relative items-center">
+        <img
+          src={images[currentImageIndex]}
+          alt="Slideshow Image"
+          className="w-full h-[20rem] object-cover rounded-lg transition-all duration-500 ease-in-out"
+        />
+        <div className="absolute top-1/2 translate-y-[-1.4rem] left-0 right-0 flex justify-between px-4">
+          <button
+            onClick={handlePrevImage}
+            className="bg-black text-white p-2 rounded-full hover:bg-gray-700 transition"
+          >
+            &lt;
+          </button>
+          <button
+            onClick={handleNextImage}
+            className="bg-black text-white p-2 rounded-full hover:bg-gray-700 transition"
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+    </div>
+
       </div>
     </div>
   );
