@@ -8,6 +8,7 @@ import Home from './pages/home'
 import AboutUs from './pages/aboutUs'
 import Menu from './pages/menu'
 import Request from './pages/request'
+import Contacts from './pages/contacts'
 
 // componentes
 import Navbar from './components/navbar'
@@ -40,6 +41,11 @@ export default function App() {
               <Route 
                 path="/request"
                 element={<Request />}
+              />
+
+              <Route 
+                path="/contacts"
+                element={<Contacts />}
               />
 
             </Routes>

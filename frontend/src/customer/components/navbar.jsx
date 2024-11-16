@@ -141,7 +141,12 @@ const navbar = () => {
                   >
                     Request
                   </NavLink>
-                  <a href="#" className="flex items-center justify-center h-16 px-3 py-2 text-md text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300 whitespace-nowrap overflow-hidden text-ellipsis">Contacts</a>
+                  <NavLink
+                    to="/contacts"
+                    className={({ isActive }) => activeLink(isActive)}
+                  >
+                    Contacts
+                  </NavLink>
                 </div>
               </div>
 
