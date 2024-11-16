@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const SideNavbar = ({ setSelectedFilter }) => {
+const SideNavbar = ({ setSelectedFilter, passFilter }) => {
 
   const [activeFilter, setActiveFilter] = useState("all");
 
@@ -16,6 +16,9 @@ const SideNavbar = ({ setSelectedFilter }) => {
     activeCategory(filterId);
   };
 
+  useEffect(() => {
+    handleFilterChange(passFilter)
+  },[passFilter]);
 
   return (
     <div className="font-roboto font-normal nav-container relative p-10">

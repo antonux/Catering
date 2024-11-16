@@ -1,7 +1,9 @@
 import introPic from '../assets/images/introPic.png';
 import { motion } from "framer-motion";
+import { NavLink } from 'react-router-dom';
 
 const introHome = () => {
+
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 10 }}
@@ -24,12 +26,16 @@ const introHome = () => {
 						<p className="font-roboto tracking-widest text-sm">Savor every moment, we’ll handle the feast!</p>
 					</div>
 					<div className="font-roboto flex mt-4 w-full text-sm gap-3 flex-col lg:w-auto lg:text-base lg:flex-row lg:gap-5 text-nowrap lg:mt-8">
-						<button className="px-14 py-2 bg-[#383635]  text-[#f2f1ed] font-medium hover:border-[#c7b391] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
-							Request Now
-						</button>
+            <NavLink to="/request">
+							<button className="px-14 py-2 bg-[#383635] border-2 border-[#383635]  text-[#f2f1ed] font-medium rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
+								Request Now
+							</button>
+            </NavLink>
+            <NavLink to="/contacts">
 						<button className="px-14 py-2 border-2 border-[#4a4745] text-[#4a4745] bg-transparent rounded-lg shadow-lg hover:bg-[#a08c63] hover:text-[#f2f1ed] hover:shadow-xl hover:scale-105 transition-transform duration-300">
 							Contact Us
 						</button>
+            </NavLink>
 					</div>
 				</div>
 
