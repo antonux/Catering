@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar'
 const MainLayout = () => {
   return (
     <>
-        <div className='flex flex-row '>
+        <div className='flex flex-row bg-bg_ten'>
             <Sidebar/>
             <Outlet/>
         </div>
