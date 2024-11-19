@@ -38,3 +38,5 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
    git clone https://github.com/antonux/Catering.git
 
 2. **Run 'npm install' on both frontend & backend folders**
+
+3. **Run 'npm run dev' on either the frontend or backend**
