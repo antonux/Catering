@@ -5,8 +5,10 @@ const MainLayout = () => {
   return (
     <>
         <div className='flex flex-row bg-bg_ten'>
-            <Sidebar/>
-            <Outlet/>
+          <div className='z-50'>
+          <Sidebar/>
+          </div>
+          <Outlet/>
         </div>
     </>
   );

@@ -1,7 +1,16 @@
-import React from 'react'
+import * as React from 'react'
+
 const Event = () => {
   return (
-    <div></div>
+    <div className='grid bg-white w-full h-screen grid-cols-12'>
+      <div className='col-span-4 grid-rows-12'>
+        <div>
+
+        </div>
+      </div>
+      <div className='col-span-8 grid-rows-12'>
+      </div>
+    </div>
   )
 }
 

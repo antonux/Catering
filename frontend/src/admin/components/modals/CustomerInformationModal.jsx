@@ -1,138 +1,151 @@
 import React, { useState } from "react";
 import { IoMdContact } from "react-icons/io";
+import { ChevronDown, X, Calendar, Info, Clock } from "lucide-react";
 
 const CustomerInformationModal = ({ customer, onClose }) => {
   if (!customer) return null;
 
-  const [openSection, setOpenSection] = useState(null); // Track which section is open
+  const [openSection, setOpenSection] = useState(null);
 
-  const toggleViewInformation = () => {
-    // If "View Information" is clicked, open it and close the other
-    setOpenSection(openSection === "view" ? null : "view");
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? null : section);
   };
 
-  const toggleSchedule = () => {
-    // If "Change Schedule" is clicked, open it and close the other
-    setOpenSection(openSection === "schedule" ? null : "schedule");
+  const StatusBadge = ({ status }) => {
+    const statusStyles = {
+      Pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+      "On Hold": "bg-red-100 text-red-800 border-red-200",
+      Confirmed: "bg-green-100 text-green-800 border-green-200",
+    };
+
+    return (
+      <span className={`px-3 py-1 rounded-full text-sm font-medium border ${statusStyles[status] || ''}`}>
+        {status}
+      </span>
+    );
   };
+
+  const CollapsibleSection = ({ title, icon: Icon, isOpen, onToggle, children }) => (
+    <div className="mb-4">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+      >
+        <div className="flex items-center gap-3">
+          <Icon className="text-gray-500" size={20} />
+          <span className="font-medium text-gray-700">{title}</span>
+        </div>
+        <ChevronDown
+          className={`transform transition-transform duration-200 text-gray-500 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+          size={20}
+        />
+      </button>
+      <div
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="p-4 bg-gray-50 rounded-lg mt-2">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 overflow-auto">
-      <div
-        className="bg-white rounded-lg p-6 shadow-lg w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto"
-      >
-        {/* Modal Header Section */}
-        <section className="grid grid-cols-6 gap-4 mb-6">
-          {/* Customer Info */}
-          <div className="col-span-3 flex items-center">
-            <IoMdContact className="text-slate-900 mr-4" size={70} />
-            <div>
-              <h2 className="text-2xl font-bold">{customer.name}</h2>
-              <p className="text-gray-600">{customer.email}</p>
-              <p className="text-gray-600">Event: {customer.event}</p>
-              <p className="text-gray-600">Date of Event: {customer.dateOfEvent}</p>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="p-6 border-b border-gray-100">
+          <div className="flex justify-between items-start mb-6">
+            <div className="flex gap-4">
+              <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center">
+                <IoMdContact className="text-gray-600" size={40} />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">{customer.event}</h2>
+                <p className="text-gray-500 mt-1">{customer.name}</p>
+                <div className="mt-2">
+                  <StatusBadge status={customer.status} />
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <X size={20} className="text-gray-500" />
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">Email</p>
+              <p className="text-gray-700">{customer.email}</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">Date of Event</p>
+              <p className="text-gray-700">{customer.dateOfEvent}</p>
             </div>
           </div>
-          {/* Status Update */}
-          <div className="col-span-2">
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Status</label>
+        </div>
+
+        {/* Status Update Section */}
+        <div className="p-6 bg-gray-50 border-b border-gray-100">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Update Status
+              </label>
               <select
-                name="clientStatus"
-                id="status"
                 value={customer.status}
-                className="border border-gray-300 rounded-md p-2 w-full"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow"
               >
                 <option value="Pending">Pending Approval</option>
                 <option value="On Hold">On Hold</option>
                 <option value="Confirmed">Confirmed</option>
               </select>
             </div>
-          </div>
-          <div className="col-span-1 flex-col">
-            <label className="block text-gray-700 font-semibold mb-2">Update Changes</label>
-            <button className="border border-gray-300 rounded-md p-2 w-full">
-              Update
-            </button>
-          </div>
-        </section>
-        <hr className="border-gray-300 my-2" />
-
-        <section className="mb-6 mt-20">
-          {/* View Informations Toggle */}
-          <div
-            className="flex justify-between items-center cursor-pointer"
-            onClick={toggleViewInformation}
-          >
-            <span className="text-gray-700 font-medium">View Informations</span>
-            <div
-              className={`transform transition-transform duration-300 ${
-                openSection === "view" ? "rotate-180" : "rotate-90"
-              } text-gray-700`}
-            >
-              &#9662;
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                &nbsp;
+              </label>
+              <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Update
+              </button>
             </div>
           </div>
-          <hr className="border-gray-300 my-2" />
+        </div>
 
-          {/* Collapsible Content */}
-          <div
-            className={`overflow-y-auto transition-all duration-500 mb-2 border-b-4 ${
-              openSection === "view" ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-            style={{
-              maxHeight: openSection === "view" ? "24rem" : "0",
-            }}
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <CollapsibleSection
+            title="View Details"
+            icon={Info}
+            isOpen={openSection === "view"}
+            onToggle={() => toggleSection("view")}
           >
-            <div className="mt-4">
-              <p className="text-gray-600">Details about the information...</p>
-                
+            <div className="space-y-4 text-gray-600">
+              <p>Details about the information...</p>
             </div>
-          </div>
+          </CollapsibleSection>
 
-          {/* Change Schedule Toggle */}
-          <div
-            className="flex justify-between items-center cursor-pointer "
-            onClick={toggleSchedule}
+          <CollapsibleSection
+            title="Change Schedule"
+            icon={Calendar}
+            isOpen={openSection === "schedule"}
+            onToggle={() => toggleSection("schedule")}
           >
-            <span className="text-gray-700 font-medium">Change Schedule</span>
-            <div
-              className={`transform transition-transform duration-300 ${
-                openSection === "schedule" ? "rotate-180" : "rotate-90"
-              } text-gray-700`}
-            >
-              &#9662;
-            </div>
-          </div>
-          <hr className="border-gray-300 my-2" />
-
-          {/* Collapsible Content */}
-          <div
-            className={`overflow-y-auto transition-all duration-500 mb-2 border-b-4 ${
-              openSection === "schedule" ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-            style={{
-              maxHeight: openSection === "schedule" ? "24rem" : "0",
-            }}
-          >
-            <div className="mt-4">
-              <p className="text-gray-600">Details about the information...</p>
+            <div className="space-y-4 text-gray-600">
+              <p>Details about the information...</p>
               {[...Array(10)].map((_, index) => (
-                <p key={index} className="text-gray-600">Additional data {index + 1}</p>
+                <p key={index}>Additional data {index + 1}</p>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Modal Footer Section */}
-        <section className="flex justify-end mt-6">
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </section>
+          </CollapsibleSection>
+        </div>
       </div>
     </div>
   );

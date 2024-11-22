@@ -1,76 +1,120 @@
-import { AiFillLeftCircle } from "react-icons/ai";
-import { HiArchive, HiChatAlt2 } from "react-icons/hi";
-import { ImAddressBook } from "react-icons/im";
-import { IoIosApps, IoIosCart, IoMdRestaurant, IoIosHappy, IoMdPerson } from "react-icons/io";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { 
+  LayoutDashboard, 
+  MessageSquare, 
+  Calendar, 
+  Menu as MenuIcon,
+  Archive, 
+  Settings,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 
-const Tooltip = ({ text, children, open }) => {
+const menuItems = [
+  { 
+    title: "Dashboard", 
+    icon: LayoutDashboard, 
+    path: "/" 
+  },
+  { 
+    title: "Inquiries", 
+    icon: MessageSquare, 
+    path: "/AdminInquiry" 
+  },
+  { 
+    title: "Event", 
+    icon: Calendar, 
+    path: "/Events" 
+  },
+  { 
+    title: "Menu Option", 
+    icon: MenuIcon, 
+    path: "/Menu" 
+  },
+  { 
+    title: "Archive", 
+    icon: Archive, 
+    path: "/Archive" 
+  },
+  { 
+    title: "Profile Setting", 
+    icon: Settings, 
+    path: "/settings" 
+  }
+];
+
+const Tooltip = ({ text, children, show }) => {
+  if (!show) return children;
+  
   return (
-    <div className="relative group">
+    <div className="group relative flex">
       {children}
-      {!open && (
-        <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 rounded-md shadow-md text-white bg-gray-700 text-xs font-medium transition-all duration-200 scale-0 group-hover:scale-100 p-2 px-3 z-50">
+      <div className="absolute left-12 top-1/2 -translate-y-1/2 z-50 hidden group-hover:flex">
+        <div className="bg-gray-800 text-white px-2 py-1 rounded-md text-sm whitespace-nowrap">
           {text}
-        </span>
-      )}
+        </div>
+      </div>
     </div>
   );
 };
 
+const Sidebar = () => {
+  const [isExpanded, setIsExpanded] = useState(true);
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(true);
-
-  const Menus = [
-    { title: "Dashboard", icon: <IoIosApps size="30" />, text: "Dashboard" },
-    { title: "Inquiries", icon: <HiChatAlt2 size="30" />, gap: true, text: "Inquiries", path: '/AdminInquiry'},
-    { title: "Event", icon: <ImAddressBook size="30" />, text: "Event", path: '/Events'},
-    { title: "Menu Option", icon: <IoMdRestaurant size="30" />, gap: true, text: "Menu Option", path: '/Menu' },
-    { title: "Archive", icon: <HiArchive size="30" />, gap: true, text: "Archive" },
-    { title: "Profile Setting", icon: <IoMdPerson size="30" />, gap: true, text: "Profile Setting" },
-  ];
-
-  const sidePanel = (
-    <div className="flex flex-row space-x-4 relative">
-      <div
-        className={`${open ? "w-72" : "w-20"} sticky top-0 duration-300 h-screen p-5 pt-8 bg-bg_thirty`}
+  return (
+    <div 
+      className={`relative min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
+        ${isExpanded ? 'w-64' : 'w-16'}`}
+    >
+      {/* Toggle Button */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100"
       >
-        <AiFillLeftCircle
-          className={`absolute cursor-pointer -right-3 top-7 w-7 text-bg_ten text-4xl border-bg_thirty ${
-            !open && "rotate-180"
-          }`}
-          onClick={() => setOpen(!open)}
-        />
+        {isExpanded ? 
+          <ChevronLeft className="w-4 h-4 text-gray-600" /> : 
+          <ChevronRight className="w-4 h-4 text-gray-600" />
+        }
+      </button>
 
-        <div className="flex justify-center">
-          <img
-            src="./src/assets/images/VLOGO.png"
-            alt="Logo"
-            className={`cursor-pointer duration-500 w-24 h-20`}
-          />
-        </div>
+      {/* Logo Area */}
+      <div className="flex items-center justify-center h-16 border-b border-gray-200">
+        {isExpanded ? (
+          <h1 className="text-xl font-bold text-gray-800">Admin Panel</h1>
+        ) : (
+          <span className="text-xl font-bold text-gray-800">A</span>
+        )}
+      </div>
 
-        <ul className="pt-6 justify-center">
-          {Menus.map((menu, index) => (
-            <Tooltip key={index} text={menu.text} open={open}>
+      {/* Navigation Menu */}
+      <nav className="p-4 space-y-2">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          
+          return (
+            <Tooltip key={item.title} text={item.title} show={!isExpanded}>
               <NavLink
-                to={menu.path}
-                className={`text-gray-200 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-bg_ten hover:text-black rounded-md ${
-                  menu.gap ? "mt-9" : "mt-2"}`}
-                
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-2 rounded-lg transition-colors
+                  ${isActive 
+                    ? 'bg-blue-50 text-blue-600' 
+                    : 'text-gray-600 hover:bg-gray-50'
+                  }`
+                }
               >
-                <span>{menu.icon}</span>
-                <span className={`${!open && "hidden"} origin-left duration-200 font-sans`}>
-                  {menu.title}
-                </span>
+                <Icon className="w-5 h-5" />
+                {isExpanded && (
+                  <span className="ml-3 font-medium">{item.title}</span>
+                )}
               </NavLink>
             </Tooltip>
-          ))}
-        </ul>
-      </div>
+          );
+        })}
+      </nav>
     </div>
   );
+};
 
-  return sidePanel;
-}
+export default Sidebar;

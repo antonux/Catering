@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FaPlus, FaSearch } from "react-icons/fa";
-import { IoMdContact } from "react-icons/io";
+import { Search, Plus, MessageSquare, Eye, User } from "lucide-react";
 import CustomerInformationModal from "./modals/CustomerInformationModal";
 
 export default function Inquiry() {
@@ -29,7 +28,7 @@ export default function Inquiry() {
     ];
 
     const [viewCustomer, setViewCustomer] = useState(null);
-
+    const [viewForm, setViewForm] = useState(null);
     const [selectedEvent, setSelectedEvent] = useState("All Events");
     const [selectedStatus, setSelectedStatus] = useState("All Requests");
 
@@ -39,107 +38,116 @@ export default function Inquiry() {
         return eventMatch && statusMatch;
     });
 
-    return (
-        <div className="flex flex-1 m-2 bg-white p-4 w-96 h-[712px]">
-            <div className="relative w-full m-4">
-                {/* Header */}
-                <div className="flex justify-between items-center gap-x-4 mb-10">
-                    <h1 className="font-sans font-bold text-4xl text-gray-800">Inquiry</h1>
-                    <button
-                        className="w-auto h-10 bg-slate-800 flex items-center justify-center 
-                                    space-x-2 text-white font-sans font-normal text-md ml-2 p-2 
-                                    rounded-lg hover:bg-slate-500"
-                    >
-                        <FaPlus size={20} />
-                        <span>Create Form</span>
-                    </button>
+    const getStatusStyle = (status) => {
+        switch (status) {
+            case "Pending":
+                return "bg-red-50 text-red-600 ring-red-600/10 ring-1";
+            case "On Hold":
+                return "bg-yellow-50 text-yellow-600 ring-yellow-600/10 ring-1";
+            case "Confirmed":
+                return "bg-green-50 text-green-600 ring-green-600/10 ring-1";
+            default:
+                return "bg-gray-50 text-gray-600 ring-gray-600/10 ring-1";
+        }
+    };
 
+    return (
+        <div className="flex flex-1 bg-white shadow-sm">
+            <div className="w-full p-6">
+                {/* Header Section */}
+                <div className="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 className="text-2xl font-semibold text-gray-900">Inquiry Dashboard</h1>
+                        <p className="text-sm text-gray-500 mt-1">Manage your event inquiries and requests</p>
+                    </div>
+                    <button
+                        onClick={() => setViewForm(true)}
+                        className="inline-flex items-center gap-x-2 bg-indigo-600 px-4 py-2.5 rounded-lg text-white 
+                        hover:bg-indigo-500 transition-colors shadow-sm"
+                    >
+                        <Plus className="h-4 w-4" />
+                        <span className="text-sm font-medium">New Inquiry</span>
+                    </button>
                 </div>
 
-                {/* Filters */}
-                <div className="flex justify-between w-full m-4">
-                    <div className="flex space-x-4 items-center">
-                        {/* Search */}
-                        <div className="flex items-center border border-b-gray-600 rounded-lg p-2 bg-white shadow-sm w-64">
-                            <FaSearch />
+                {/* Filters Section */}
+                <div className="grid grid-cols-12 gap-4 mb-6">
+                    <div className="col-span-4">
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Search className="h-4 w-4 text-gray-400" />
+                            </div>
                             <input
                                 type="text"
-                                placeholder="Search"
-                                className="ml-2 bg-transparent focus:outline-none text-gray-600 w-full"
+                                className="block w-full pl-10 pr-3 py-2.5 text-sm border border-gray-200 rounded-lg 
+                                placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
+                                placeholder="Search inquiries..."
                             />
                         </div>
-
-                        {/* Event Filter */}
-                        <div className="relative inline-flex items-center">
-                            <select
-                                value={selectedEvent}
-                                onChange={(e) => setSelectedEvent(e.target.value)}
-                                className="border border-gray-300 rounded-md font-sans text-gray-600 h-10 pl-3 pr-8 appearance-none bg-white"
-                            >
-                                <option value="All Events">All Events ({information.length})</option>
-                                <option value="Birthday Event">Birthday Event</option>
-                                <option value="Wedding Event">Wedding Event</option>
-                            </select>
-                            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-600">▼</span>
-                        </div>
-
-                        {/* Status Filter */}
-                        <div className="relative inline-flex items-center">
-                            <select
-                                value={selectedStatus}
-                                onChange={(e) => setSelectedStatus(e.target.value)}
-                                className="border border-gray-300 rounded-md font-sans text-gray-600 h-10 pl-3 pr-8 appearance-none bg-white"
-                            >
-                                <option value="All Requests">All Requests ({information.length})</option>
-                                <option value="Pending">Pending</option>
-                                <option value="On Hold">On Hold</option>
-                                <option value="Confirmed">Confirmed</option>
-                            </select>
-                            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-600">▼</span>
-                        </div>
+                    </div>
+                    <div className="col-span-4">
+                        <select
+                            value={selectedEvent}
+                            onChange={(e) => setSelectedEvent(e.target.value)}
+                            className="block w-full py-2.5 px-3 text-sm border border-gray-200 rounded-lg 
+                            focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
+                        >
+                            <option value="All Events">All Events ({information.length})</option>
+                            <option value="Birthday Event">Birthday Event</option>
+                            <option value="Wedding Event">Wedding Event</option>
+                        </select>
+                    </div>
+                    <div className="col-span-4">
+                        <select
+                            value={selectedStatus}
+                            onChange={(e) => setSelectedStatus(e.target.value)}
+                            className="block w-full py-2.5 px-3 text-sm border border-gray-200 rounded-lg 
+                            focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
+                        >
+                            <option value="All Requests">All Requests ({information.length})</option>
+                            <option value="Pending">Pending</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Confirmed">Confirmed</option>
+                        </select>
                     </div>
                 </div>
 
                 {/* Inquiry List */}
-                <div className="flex">
-                    <ul className="overflow-y-auto w-full h-[490px] mt-7 z-0">
+                <div className="overflow-hidden rounded-xl border border-gray-200">
+                    <ul className="divide-y divide-gray-200">
                         {filteredInformation.map((item, index) => (
-                            <li
-                                key={index}
-                                className="border-2 shadow-lg py-2 pl-4 m-3 rounded-lg hover:bg-gray-100"
-                                onClick={() => console.log("Clicked:", item)}
-                            >
-                                <div className="flex justify-between items-center">
-                                    <div className="flex items-center space-x-3">
-                                        <IoMdContact className="text-slate-900" size={70} />
-                                        <div className="text-start">
-                                            <button className="font-sans font-bold">{item.event}</button>
-                                            <p className="text-sm text-gray-600">{item.name}</p>
-                                            <div className="inline-flex">
-                                                <p className="text-sm text-gray-500">{item.dateOfEvent}</p>
-                                                <button
-                                                    className={`px-4 rounded-lg text-sm ${
-                                                        item.status === "Pending"
-                                                            ? "text-red-400 hover:text-red-600"
-                                                            : item.status === "On Hold"
-                                                            ? "text-yellow-500 hover:text-yellow-700"
-                                                            : "text-green-400 hover:text-green-600"
-                                                    } hover:underline`}
+                            <li key={index} className="hover:bg-gray-50 transition-colors">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <User className="h-6 w-6 text-gray-400" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-sm font-medium text-gray-900">{item.name}</h3>
+                                                <div className="flex items-center gap-x-2 mt-1">
+                                                    <span className="text-sm text-gray-500">{item.event}</span>
+                                                    <span className="text-gray-300">•</span>
+                                                    <span className="text-sm text-gray-500">{item.dateOfEvent}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center space-x-4">
+                                            <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${getStatusStyle(item.status)}`}>
+                                                {item.status}
+                                            </span>
+                                            <div className="flex items-center gap-x-2">
+                                                <button className="p-2 text-gray-400 hover:text-gray-500 rounded-lg hover:bg-gray-100">
+                                                    <MessageSquare className="h-5 w-5" />
+                                                </button>
+                                                <button 
+                                                    onClick={() => setViewCustomer(item)}
+                                                    className="p-2 text-gray-400 hover:text-gray-500 rounded-lg hover:bg-gray-100"
                                                 >
-                                                    {item.status || "No Status"}
+                                                    <Eye className="h-5 w-5" />
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="inline-flex">
-                                        <button className="text-sky-600 mr-4 hover:underline hover:text-sky-800">
-                                            Message
-                                        </button>
-                                        <button className="flex items-center justify-center h-8 bg-slate-800 text-white
-                                                         px-8 rounded-md mr-10 hover:bg-bg_ten hover:text-black"
-                                                onClick={() => setViewCustomer(item)}>
-                                            View
-                                        </button>   
                                     </div>
                                 </div>
                             </li>
@@ -147,17 +155,11 @@ export default function Inquiry() {
                     </ul>
                 </div>
             </div>
-            
 
-            {/* View Modal informations*/}
-            {
-                viewCustomer && 
-                <CustomerInformationModal customer={viewCustomer} onClose={() => setViewCustomer(null)}/> 
-            }
-            
+            {viewCustomer && (
+                <CustomerInformationModal customer={viewCustomer} onClose={() => setViewCustomer(null)} />
+            )}
+            {viewForm && <InquiryForm onClose={() => setViewForm(null)} />}
         </div>
-
-
-        
     );
 }
