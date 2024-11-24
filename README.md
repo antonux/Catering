@@ -1,6 +1,6 @@
 # Virtucio Caterers Reservation System
 
-# Deadline: December 13, 2024
+-Deadline: December 13, 2024
 
 ## Overview
 The **Virtucio Caterers Reservation System** is a web application designed to streamline the inquiry and reservation process for catering services. This system allows clients to easily book catering services and provides the business with an efficient way to manage inquiries, reservations, and customer information.
