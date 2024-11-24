@@ -40,7 +40,7 @@ const menuItems = [
   { 
     title: "Profile Setting", 
     icon: Settings, 
-    path: "/settings" 
+    path: "/Settings" 
   }
 ];
 

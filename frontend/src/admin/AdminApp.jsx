@@ -6,6 +6,8 @@ import Menu from './components/Menu';
 import Event from './components/Event';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInquiry from './pages/AdminInquiry';
+import AdminArchive from './pages/AdminArchive';
+import AdminProfile from './pages/AdminProfile';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +16,8 @@ const router = createBrowserRouter(
       <Route path='AdminInquiry' element={<AdminInquiry />} />
       <Route path='Events' element={<Event />} />
       <Route path='Menu' element={<Menu />} />
+      <Route path='Archive' element={<AdminArchive />} />
+      <Route path='Settings' element={<AdminProfile />} />
       
     </Route>
   )
