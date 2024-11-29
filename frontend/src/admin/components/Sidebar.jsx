@@ -3,6 +3,7 @@ import { HiArchive, HiChatAlt2 } from "react-icons/hi";
 import { ImAddressBook } from "react-icons/im";
 import { IoIosApps, IoIosCart, IoMdRestaurant, IoIosHappy, IoMdPerson } from "react-icons/io";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Tooltip = ({ text, children, open }) => {
   return (
@@ -23,12 +24,10 @@ export default function Sidebar() {
 
   const Menus = [
     { title: "Dashboard", icon: <IoIosApps size="30" />, text: "Dashboard" },
-    { title: "Inquiries", icon: <HiChatAlt2 size="30" />, gap: true, text: "Inquiries" },
-    { title: "Order Tracking", icon: <IoIosCart size="30" />, text: "Order Tracking" },
-    { title: "Event", icon: <ImAddressBook size="30" />, text: "Event" },
-    { title: "Menu Option", icon: <IoMdRestaurant size="30" />, gap: true, text: "Menu Option" },
+    { title: "Inquiries", icon: <HiChatAlt2 size="30" />, gap: true, text: "Inquiries", path: '/Inquiry'},
+    { title: "Event", icon: <ImAddressBook size="30" />, text: "Event", path: '/Events'},
+    { title: "Menu Option", icon: <IoMdRestaurant size="30" />, gap: true, text: "Menu Option", path: '/Menu' },
     { title: "Archive", icon: <HiArchive size="30" />, gap: true, text: "Archive" },
-    { title: "Feedback", icon: <IoIosHappy size="30" />, text: "Feedback" },
     { title: "Profile Setting", icon: <IoMdPerson size="30" />, gap: true, text: "Profile Setting" },
   ];
 
@@ -55,16 +54,17 @@ export default function Sidebar() {
         <ul className="pt-6 justify-center">
           {Menus.map((menu, index) => (
             <Tooltip key={index} text={menu.text} open={open}>
-              <li
+              <NavLink
+                to={menu.path}
                 className={`text-gray-200 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-bg_ten hover:text-black rounded-md ${
-                  menu.gap ? "mt-9" : "mt-2"
-                }`}
+                  menu.gap ? "mt-9" : "mt-2"}`}
+                
               >
                 <span>{menu.icon}</span>
                 <span className={`${!open && "hidden"} origin-left duration-200 font-sans`}>
                   {menu.title}
                 </span>
-              </li>
+              </NavLink>
             </Tooltip>
           ))}
         </ul>
