@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search, Plus, MessageSquare, Eye, User } from "lucide-react";
 import CustomerInformationModal from "./modals/CustomerInformationModal";
+import InquiryForm from './modals/InquiryForm'
 
 export default function Inquiry() {
     const information = [
