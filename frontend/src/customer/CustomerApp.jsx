@@ -9,6 +9,7 @@ import AboutUs from './pages/aboutUs'
 import Menu from './pages/menu'
 import Request from './pages/request'
 import Contacts from './pages/contacts'
+import Confirmation from './pages/confirmation'
 
 // componentes
 import Navbar from './components/navbar'
@@ -46,6 +47,11 @@ export default function App() {
               <Route 
                 path="/contacts"
                 element={<Contacts />}
+              />
+
+              <Route 
+                path="/confirmation"
+                element={<Confirmation />}
               />
 
             </Routes>
