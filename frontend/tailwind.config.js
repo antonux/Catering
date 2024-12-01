@@ -22,6 +22,11 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
+      colors: {
+        bg_sixty : "#e0e2db",
+        bg_thirty : "#191716",
+        bg_ten : "#E0E0E0"
+      },
     },
   },
   plugins: [
