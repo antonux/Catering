@@ -20,7 +20,7 @@ const confirmationForm = () => {
     <>
       <form
         id="r-form"
-        className="w-full p-14 space-y-4"
+        className="w-full p-10 space-y-4"
       >
         <div className="flex flex-col gap-3 mb-14">
           <h1 className="font-roboto text-5xl font-bold text-[#222222] tracking-wide">Event Details</h1>
@@ -220,28 +220,14 @@ const confirmationForm = () => {
         </div>
 
         {/* Optional Message */}
-        <div>
-          <label
-            htmlFor="optional-message-request"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Optional Message
-          </label>
-          <textarea
-            id="optional-message-request"
-            rows="3"
-            placeholder="Give a message"
-            className={`${getInputClass()} placeholder-[#797575] h-24`}
-          ></textarea>
-        </div>
 
         {/* Submit Button */}
-        <button
+        {/* <button
           type="submit"
           className="w-full bg-[#383635] text-white p-2 h-11 rounded hover:bg-[#4d4d4d] transition"
         >
           Submit
-        </button>
+        </button> */}
       </form>
     </>
   )

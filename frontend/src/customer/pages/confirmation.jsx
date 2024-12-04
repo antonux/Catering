@@ -1,5 +1,6 @@
 import ConfirmationForm from '../components/confirmationForm'
 import ConfirmationMenu from '../components/confirmationMenu'
+import ConfirmationCOA from '../components/confirmationCOA'
 
 const InquiryForm = () => {
 
@@ -15,6 +16,10 @@ const InquiryForm = () => {
 
         {/* Confirmation Menu Section */}
         <ConfirmationMenu />
+        {/* Confirmation Menu Section */}
+
+        {/* Confirmation Menu Section */}
+        <ConfirmationCOA />
         {/* Confirmation Menu Section */}
 
       </div>

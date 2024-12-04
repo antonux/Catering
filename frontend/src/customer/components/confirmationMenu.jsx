@@ -44,6 +44,8 @@ const ConfirmationMenu = () => {
     const cards = categoryName
       ? menuItems.filter(item => item.category.includes(categoryName))
       : filteredMenu;
+
+
     return (
       <div className="relative flex gap-10 w-full pt-5 pb-6 px-6 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-sm">
         {cards.map((item) => (
@@ -67,9 +69,8 @@ const ConfirmationMenu = () => {
     )
   };
 
-
   return (
-    <div className="w-full p-14 space-y-4">
+    <div className="w-full p-10 space-y-4">
       <h1 className="font-roboto text-5xl font-bold text-[#222222] tracking-wide">Confirmation Menu</h1>
       <p className="italic">*Select and Add a Dish to include to Your Order.</p>
 
@@ -143,6 +144,21 @@ const ConfirmationMenu = () => {
           </div>
         </div>
 
+        <div className="mt-10 flex flex-col gap-3">
+          <label
+            htmlFor="optional-message-request"
+            className="block text-center text-3xl font-medium text-gray-700 mb-1 font-roboto"
+          >
+            Special Instructions:
+          </label>
+          <textarea
+            id="optional-message-request"
+            rows="3"
+            placeholder="Give a message"
+            className="placeholder-[#797575] w-full p-2 bg-[#ebecee] h-[12rem]"
+          ></textarea>
+        </div>
+
       </div>
 
 
@@ -155,26 +171,26 @@ const menu = () =>{
     { id: 1, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba1", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
     { id: 2, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba2", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
     { id: 3, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba3", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-    { id: 9, desc: "Beef stewed in tomato with potato, carrot, olives, bell peppers, and liver spread.", name: "Beef Caldereta1", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-    { id: 10, desc: "Stir-fried vegetable dish that is cooked with meats such as chicken and pork.", name: "Chopsuey1", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-    { id: 11, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder1", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 11, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder2", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 11, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder3", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 12, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float1", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 15, desc: "Stir-fried vegetable dish that is cooked with meats such as chicken and pork.", name: "Chopsuey2", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-    { id: 16, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder4", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 17, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float2", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 17, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float3", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 17, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float4", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 17, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float5", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 18, desc: "Crispy breadcrumb-crusted chicken breasts wrapped around ham or prosciutto and melted cheese", name: "Chicken Cordon Blue1", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-    { id: 20, desc: "Stir-fried vegetable dish that is cooked with meats such as chicken and pork.", name: "Chopsuey3", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-    { id: 21, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder5", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 23, desc: "Crispy breadcrumb-crusted chicken breasts wrapped around ham or prosciutto and melted cheese", name: "Chicken Cordon Blue2", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-    { id: 24, desc: "Beef stewed in tomato with potato, carrot, olives, bell peppers, and liver spread.", name: "Beef Caldereta2", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-    { id: 27, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float6", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 28, desc: "Crispy breadcrumb-crusted chicken breasts wrapped around ham or prosciutto and melted cheese", name: "Chicken Cordon Blue3", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-    { id: 29, desc: "Beef stewed in tomato with potato, carrot, olives, bell peppers, and liver spread.", name: "Beef Caldereta3", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
+    { id: 4, desc: "Beef stewed in tomato with potato, carrot, olives, bell peppers, and liver spread.", name: "Beef Caldereta1", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
+    { id: 5, desc: "Stir-fried vegetable dish that is cooked with meats such as chicken and pork.", name: "Chopsuey1", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
+    { id: 6, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder1", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
+    { id: 7, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder2", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
+    { id: 8, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder3", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
+    { id: 9, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float1", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
+    { id: 10, desc: "Stir-fried vegetable dish that is cooked with meats such as chicken and pork.", name: "Chopsuey2", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
+    { id: 11, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder4", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
+    { id: 12, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float2", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
+    { id: 13, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float3", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
+    { id: 14, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float4", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
+    { id: 15, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float5", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
+    { id: 16, desc: "Crispy breadcrumb-crusted chicken breasts wrapped around ham or prosciutto and melted cheese", name: "Chicken Cordon Blue1", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
+    { id: 17, desc: "Stir-fried vegetable dish that is cooked with meats such as chicken and pork.", name: "Chopsuey3", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
+    { id: 18, desc: "Thick soup prepared with milk or cream, a roux, and seafood or vegetables.", name: "Seafood Chowder5", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
+    { id: 19, desc: "Crispy breadcrumb-crusted chicken breasts wrapped around ham or prosciutto and melted cheese", name: "Chicken Cordon Blue2", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
+    { id: 20, desc: "Beef stewed in tomato with potato, carrot, olives, bell peppers, and liver spread.", name: "Beef Caldereta2", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
+    { id: 21, desc: "Graham crackers, sweetened whipped cream, and ripe mango.", name: "Mango Float6", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
+    { id: 22, desc: "Crispy breadcrumb-crusted chicken breasts wrapped around ham or prosciutto and melted cheese", name: "Chicken Cordon Blue3", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
+    { id: 23, desc: "Beef stewed in tomato with potato, carrot, olives, bell peppers, and liver spread.", name: "Beef Caldereta3", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
   ];
   return menuItems
 }
