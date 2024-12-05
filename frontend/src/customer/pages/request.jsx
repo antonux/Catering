@@ -2,7 +2,7 @@
 import RequestForm from '../components/requestForm'
 import RequestTextPhoto from '../components/requestTextPhoto'
 
-const InquiryForm = () => {
+const Request = () => {
 
 
   return (
@@ -18,4 +18,4 @@ const InquiryForm = () => {
   );
 };
 
-export default InquiryForm;
+export default Request;
