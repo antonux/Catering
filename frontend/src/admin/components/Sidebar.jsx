@@ -25,7 +25,7 @@ const menuItems = [
   { 
     title: "Event", 
     icon: Calendar, 
-    path: "/Events" 
+    path: "/AdminEvent" 
   },
   { 
     title: "Menu Option", 
@@ -38,7 +38,7 @@ const menuItems = [
     path: "/Archive" 
   },
   { 
-    title: "Profile Setting", 
+    title: "Setting", 
     icon: Settings, 
     path: "/Settings" 
   }
