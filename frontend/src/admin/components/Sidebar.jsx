@@ -4,7 +4,7 @@ import {
   LayoutDashboard, 
   MessageSquare, 
   Calendar, 
-  Menu as MenuIcon,
+  UtensilsCrossed as MenuIcon,
   Archive, 
   Settings,
   ChevronLeft,
@@ -28,12 +28,12 @@ const menuItems = [
     path: "/AdminEvent" 
   },
   { 
-    title: "Menu Option", 
+    title: "Menu", 
     icon: MenuIcon, 
     path: "/Menu" 
   },
   { 
-    title: "Archive", 
+    title: "Inbox", 
     icon: Archive, 
     path: "/Archive" 
   },
@@ -70,7 +70,7 @@ const Sidebar = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100"
+        className="absolute -right-3 top-[14px] bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100"
       >
         {isExpanded ? 
           <ChevronLeft className="w-4 h-4 text-gray-600" /> : 
