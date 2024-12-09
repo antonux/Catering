@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   Plus,
@@ -13,6 +13,22 @@ import InquiryForm from './modals/InquiryForm';
 import { isToday, isThisWeek, isThisMonth, isThisYear } from "date-fns";
 
 export default function Inquiry() {
+
+  const [request, setRequest] = useState(null);
+
+  useEffect(() => {
+    const fetchInquiries = async () => {
+      const response = await fetch('http://localhost:4000/api/info')
+      const json = await response.json()
+
+      if(response.ok) {
+        setRequest(json)
+      }
+    }
+    fetchInquiries()
+  }, [])
+
+
   const information = [
     {
       name: "Josef Huelende Virtucio",

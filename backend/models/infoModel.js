@@ -3,17 +3,43 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const infoSchema = new Schema({
-    title: {
+    eventDate: {
+        type: Date,
+        required: true
+    },
+    email: {
         type: String,
         required: true
     },
-    count: {
-        type: Number,
+    client: {
+        type: String,
         required: true
     },
-    weight: {
-        type: Number,
+    numberOfPeople: {
+        type: String,
+        required: true,
+        default: 0
+    },
+    mobileNumber: {
+        type: String,
         required: true
+    },
+    eventType: {
+        type: String,
+        required: true
+    },
+    eventAddress: {
+        type: String,
+        required: true
+    },
+    optionalMessage: {
+        type: String,
+        required: false
+    },
+    status: {
+        type: String,
+        required: false,
+        default: "pending"
     }
 }, { timestamps: true })
 
