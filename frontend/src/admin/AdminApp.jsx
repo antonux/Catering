@@ -2,7 +2,7 @@ import React from 'react';
 import AdminPage from './pages/AdminDashboard';
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
-import Menu from './components/Menu';
+import AdminMenu from './pages/AdminMenu';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInquiry from './pages/AdminInquiry';
 import AdminArchive from './pages/AdminArchive';
@@ -15,7 +15,7 @@ const router = createBrowserRouter(
       <Route index element={<AdminDashboard />} />
       <Route path='AdminInquiry' element={<AdminInquiry />} />
       <Route path='AdminEvent' element={<AdminEvent />} />
-      <Route path='Menu' element={<Menu />} />
+      <Route path='Menu' element={<AdminMenu />} />
       <Route path='Archive' element={<AdminArchive />} />
       <Route path='Settings' element={<AdminProfile />} />
       
