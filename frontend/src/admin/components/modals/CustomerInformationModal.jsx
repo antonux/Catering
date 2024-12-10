@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoMdContact } from "react-icons/io";
-import { ChevronDown, X,FileText, Info } from "lucide-react";
+import { ChevronDown, X, FileText, Info } from "lucide-react";
+import { format } from "date-fns";
 
 const CustomerInformationModal = ({ customer, onClose }) => {
   if (!customer) return null;
@@ -49,19 +50,17 @@ const CustomerInformationModal = ({ customer, onClose }) => {
           className={`transform transition-transform duration-300 ease-in-out text-gray-500 ${
             isOpen ? "rotate-180" : ""
           }`}
-          size={20} 
+          size={20}
         />
       </button>
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen 
-            ? "max-h-[1000px] opacity-100 visible" 
+          isOpen
+            ? "max-h-[1000px] opacity-100 visible"
             : "max-h-0 opacity-0 invisible"
         }`}
       >
-        <div className="p-4 bg-gray-50 rounded-lg">
-          {children}
-        </div>
+        <div className="p-4 bg-gray-50 rounded-lg">{children}</div>
       </div>
     </div>
   );
@@ -73,14 +72,16 @@ const CustomerInformationModal = ({ customer, onClose }) => {
         <div className="col-span-12 row-span-3 p-6 border-b border-gray-100 w-full">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-6">
-              <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center">
-                <IoMdContact className="text-gray-600" size={40} />
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                <span className="text-orange-600 font-bold text-lg">
+                  {customer.client?.[0].toUpperCase() || "?"}
+                </span>
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {customer.event}
+                  {customer.eventType}
                 </h2>
-                <p className="text-gray-700 mt-1">{customer.name}</p>
+                <p className="text-gray-700 mt-1">{customer.client}</p>
                 <p className="text-gray-500 text-sm">{customer.email}</p>
                 <div className="mt-2">
                   <StatusBadge status={customer.status} />
@@ -90,7 +91,12 @@ const CustomerInformationModal = ({ customer, onClose }) => {
             <div className="flex items-center space-x-6">
               <div className="text-center">
                 <p className="text-sm text-gray-500 mb-1">Date of Event</p>
-                <p className="text-gray-700">{customer.dateOfEvent}</p>
+                <p className="text-gray-700">
+                  {format(
+                    new Date(customer.eventDate.split("/").reverse().join("-")),
+                    "MMMM dd, yyyy"
+                  )}
+                </p>
               </div>
               <div className="flex flex-col space-y-1 ">
                 <div>
@@ -121,7 +127,10 @@ const CustomerInformationModal = ({ customer, onClose }) => {
           onClick={onClose}
           className="absolute top-2 right-2 p-2 hover:bg-gray-100 rounded-full transition-colors duration-300 z-50"
         >
-          <X size={20} className="text-gray-500 hover:text-gray-700 transition-colors duration-300" />
+          <X
+            size={20}
+            className="text-gray-500 hover:text-gray-700 transition-colors duration-300"
+          />
         </button>
 
         {/* Content */}
