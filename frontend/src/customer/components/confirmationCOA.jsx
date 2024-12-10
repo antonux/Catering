@@ -27,7 +27,7 @@ const ConfirmationCOA = () => {
             const dataUrl = canvas.toDataURL("image/jpeg", 1.0); // Convert to image
             const link = document.createElement("a");
             link.href = dataUrl;
-            link.download = "captured-div.jpeg"; // File name
+            link.download = "COA.jpeg"; // File name
             link.click(); // Trigger download
             setTimeout(() => {
               setIsDownloading(false); // Reset after 4 seconds
@@ -37,7 +37,6 @@ const ConfirmationCOA = () => {
             console.error("Error capturing div:", err);
           });
       }, 1000);
-      console.error("Div not found!");
     }
   };
 
@@ -146,11 +145,11 @@ const ConfirmationCOA = () => {
 
           </div>
           <div className="signat flex flex-col items-center">
-            <h1 className='text-center text-base font-medium mb-2 block'>I/We Accept:</h1>
+            <h1 className='text-center text-base font-medium bg-transparent block'>I/We Accept:</h1>
             <SignatureCanvas penColor='black' ref={sigCanvasRef}
-              canvasProps={{ width: 325, height: 150, className: 'sigCanvas bg-[#f8f9fd] rounded-lg border-[1px] border-[#343d3f]' }} />
-            <input type="text" placeholder='Enter your full name' className='leading-8 mt-1 z-50 border-b-[1px] border-[#343d3f] focus:outline-none text-center w-2/3' />
-            <p className='text-center z-0'>Signature over printed name</p>
+              canvasProps={{ width: 325, height: 150, className: `sigCanvas bg-[#f8f9fd] rounded-lg border-[1px] border-[#343d3f] ${isDownloading ? 'bg-transparent border-[0px]' : ''}` }} />
+            <input type="text" placeholder='Enter your full name' className={`leading-8 mt-1 z-50 border-b-[1px] border-[#343d3f] focus:outline-none text-center w-2/3 ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`} />
+            <p className={`text-center z-50 font-medium ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`}>Signature over printed name</p>
             <div className="mt-2 space-x-2 flex">
               <button
                 onClick={clearCanvas}
