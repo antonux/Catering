@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom';
-
-// pages
+import MainLayout from './layouts/MainLayout';
+import AdminMenu from './pages/AdminMenu';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInquiry from './pages/AdminInquiry';
 import AdminArchive from './pages/AdminArchive';

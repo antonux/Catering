@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import Menu from '../components/Menu'
 
 const AdminMenu = () => {
-  return (
-    <div>AdminMenu</div>
-  )
+    return (
+        <Menu />
+    )
 }
 
 export default AdminMenu
