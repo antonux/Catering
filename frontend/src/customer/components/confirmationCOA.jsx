@@ -1,5 +1,6 @@
 import SignatureCanvas from 'react-signature-canvas'
 import { useRef } from 'react';
+import html2canvas from "html2canvas";
 
 const ConfirmationCOA = () => {
   const sigCanvasRef = useRef(null);
@@ -15,9 +16,38 @@ const ConfirmationCOA = () => {
     }
   };
 
+  const buttons = document.querySelectorAll('.button-class'); // Replace '.button-class' with your button's class
+
+  const downloadAsImage = () => {
+    const divElement = document.getElementById("captureDiv");
+    if (divElement) {
+      buttons.forEach(button => {
+        button.style.display = 'none';
+      });
+      html2canvas(divElement, { useCORS: true }) // Captures the div as canvas
+        .then((canvas) => {
+          const dataUrl = canvas.toDataURL("image/jpeg", 1.0); // Convert to image
+          const link = document.createElement("a");
+          link.href = dataUrl;
+          link.download = "captured-div.jpeg"; // File name
+          link.click(); // Trigger download
+          setTimeout(() => {
+            buttons.forEach(button => {
+              button.style.display = 'block';
+            });
+          }, 3000);
+        })
+        .catch((err) => {
+          console.error("Error capturing div:", err);
+        });
+    } else {
+      console.error("Div not found!");
+    }
+  };
+
   return (
     <div>
-      <div className="font-roboto flex flex-col px-24 pt-14 w-[60rem]">
+      <div id='captureDiv' className="font-roboto flex flex-col px-24 pb-5 pt-14 w-[60rem] bg-white">
         <h1 className="font-roboto text-5xl font-bold text-[#222222] tracking-wide text-center mb-16">Contract of Agreement</h1>
 
         <div className="mb-5">
@@ -120,21 +150,21 @@ const ConfirmationCOA = () => {
 
           </div>
           <div className="signat flex flex-col items-center">
-            <h1 className='text-center text-base font-medium'>I/We Accept:</h1>
+            <h1 className='text-center text-base font-medium mb-2 block'>I/We Accept:</h1>
             <SignatureCanvas penColor='black' ref={sigCanvasRef}
               canvasProps={{ width: 325, height: 150, className: 'sigCanvas bg-[#f8f9fd] rounded-lg border-[1px] border-[#343d3f]' }} />
-            <input type="text" placeholder='Enter your full name' className='p-1 mt-1 border-b-[1px] border-[#343d3f] focus:outline-none text-center w-2/3' />
-            <p className='text-center'>Signature over printed name</p>
+            <input type="text" placeholder='Enter your full name' className='leading-8 mt-1 z-50 border-b-[1px] border-[#343d3f] focus:outline-none text-center w-2/3' />
+            <p className='text-center z-0'>Signature over printed name</p>
             <div className="mt-2 space-x-2 flex">
               <button
                 onClick={clearCanvas}
-                className="px-6 py-[3px] bg-red-500 text-white rounded hover:bg-red-600"
+                className="button-class px-6 py-[3px] bg-red-500 text-white rounded hover:bg-red-600"
               >
                 Clear
               </button>
               <button
                 onClick={undoLastStroke}
-                className="px-6 py-[3px] bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="button-class px-6 py-[3px] bg-blue-500 text-white rounded hover:bg-blue-600"
               >
                 Undo
               </button>
@@ -168,7 +198,7 @@ const ConfirmationCOA = () => {
           <h1 className='text-center italic font-medium'>Upload Contract of Agreement for verification</h1>
           <div className='flex justify-between w-full px-3 pt-6 mb-10'>
             <div>
-              <button>Download Contract</button>
+              <button onClick={downloadAsImage}>Download Contract</button>
             </div>
             <div>
               <button>Upload Contract</button>
@@ -180,7 +210,7 @@ const ConfirmationCOA = () => {
 
         </div>
       </div>
-    {/* end of div */}
+      {/* end of div */}
     </div>
   );
 };
