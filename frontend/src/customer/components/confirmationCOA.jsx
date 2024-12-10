@@ -24,19 +24,21 @@ const ConfirmationCOA = () => {
       buttons.forEach(button => {
         button.style.display = 'none';
       });
-      html2canvas(divElement, { useCORS: true }) // Captures the div as canvas
-        .then((canvas) => {
-          const dataUrl = canvas.toDataURL("image/jpeg", 1.0); // Convert to image
-          const link = document.createElement("a");
-          link.href = dataUrl;
-          link.download = "captured-div.jpeg"; // File name
-          link.click(); // Trigger download
-          setTimeout(() => {
-            buttons.forEach(button => {
-              button.style.display = 'block';
-            });
-          }, 3000);
-        })
+      setTimeout(() => {
+        html2canvas(divElement, { useCORS: true }) // Captures the div as canvas
+          .then((canvas) => {
+            const dataUrl = canvas.toDataURL("image/jpeg", 1.0); // Convert to image
+            const link = document.createElement("a");
+            link.href = dataUrl;
+            link.download = "captured-div.jpeg"; // File name
+            link.click(); // Trigger download
+            setTimeout(() => {
+              buttons.forEach(button => {
+                button.style.display = 'block';
+              });
+            }, 3000);
+          })
+      },2000)
         .catch((err) => {
           console.error("Error capturing div:", err);
         });
