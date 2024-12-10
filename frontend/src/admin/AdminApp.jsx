@@ -1,13 +1,15 @@
 import React from 'react';
-import AdminPage from './pages/AdminDashboard';
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom';
-import MainLayout from './layouts/MainLayout';
-import AdminMenu from './pages/AdminMenu';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInquiry from './pages/AdminInquiry';
 import AdminArchive from './pages/AdminArchive';
 import AdminProfile from './pages/AdminProfile';
 import AdminEvent from './pages/AdminEvent';
+import AdminMenu from './pages/AdminMenu';
+
+// Layout
+import MainLayout from './layouts/MainLayout';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(

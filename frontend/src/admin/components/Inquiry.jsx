@@ -1,55 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   Plus,
   MessageSquare,
   Eye,
-  User,
   ArrowDownUp,
   ArrowUpDown,
 } from "lucide-react";
 import CustomerInformationModal from "./modals/CustomerInformationModal";
-import InquiryForm from './modals/InquiryForm';
-import { isToday, isThisWeek, isThisMonth, isThisYear } from "date-fns";
+import InquiryForm from "./modals/InquiryForm";
+import { isToday, isThisWeek, isThisMonth, isThisYear, format } from "date-fns";
 
 export default function Inquiry() {
-  const information = [
-    {
-      name: "Josef Huelende Virtucio",
-      email: "virtucio123@gmail.com",
-      event: " Event",
-      dateOfEvent: "05/12/2024",
-      status: "Pending",
-    },
-    {
-      name: "Marc Antoine Remigoso",
-      email: "antoine@gmail.com",
-      event: "Wedding Event",
-      dateOfEvent: "10/12/2024",
-      status: "On Hold",
-    },
-    {
-      name: "Marc Antoine Remigoso",
-      email: "antoine@gmail.com",
-      event: "Birthday Event",
-      dateOfEvent: "10/12/2024",
-      status: "Confirmed",
-    },
-    {
-      name: "Marc Antoine Remigoso",
-      email: "antoine@gmail.com",
-      event: "Birthday Event",
-      dateOfEvent: "10/12/2024",
-      status: "Confirmed",
-    },
-    {
-      name: "Marc Antoine Remigoso",
-      email: "antoine@gmail.com",
-      event: "Birthday Event",
-      dateOfEvent: "10/12/2024",
-      status: "Confirmed",
-    },
-  ];
+  const [request, setRequest] = useState([]);
+
+  useEffect(() => {
+    const fetchInquiries = async () => {
+      const response = await fetch("http://localhost:4000/api/info");
+      const json = await response.json();
+
+      if (response.ok) {
+        setRequest(json);
+      }
+    };
+    fetchInquiries();
+  }, []);
 
   const [viewCustomer, setViewCustomer] = useState(null);
   const [viewForm, setViewForm] = useState(null);
@@ -59,14 +34,12 @@ export default function Inquiry() {
   const [filterSearch, setFilterSearch] = useState("");
   const [nameSortOrder, setNameSortOrder] = useState("asc");
 
-  const filteredInformation = information
+  const filteredInformation = request
     .filter((item) => {
-      const eventDate = new Date(
-        item.dateOfEvent.split("/").reverse().join("-")
-      );
+      const eventDate = new Date(item.eventDate.split("/").reverse().join("-"));
 
       const eventMatch =
-        selectedEvent === "All Events" || item.event === selectedEvent;
+        selectedEvent === "All Events" || item.eventType === selectedEvent;
 
       const statusMatch =
         selectedStatus === "All Requests" || item.status === selectedStatus;
@@ -76,27 +49,27 @@ export default function Inquiry() {
         (dateFilter === "today" && isToday(eventDate)) ||
         (dateFilter === "thisWeek" && isThisWeek(eventDate)) ||
         (dateFilter === "thisMonth" && isThisMonth(eventDate)) ||
-        (dateFilter === "thisYear" && isThisYear(item.dateOfEvent));
+        (dateFilter === "thisYear" && isThisYear(item.eventDate));
 
       const searchQuery = filterSearch.toLowerCase();
       const searchMatch =
-        item.name.toLowerCase().includes(searchQuery) ||
+        item.client.toLowerCase().includes(searchQuery) ||
         item.email.toLowerCase().includes(searchQuery);
 
       return eventMatch && statusMatch && dateMatch && searchMatch;
     })
     .sort((a, b) => {
       if (nameSortOrder === "asc") {
-        return a.name.localeCompare(b.name);
+        return a.client.localeCompare(b.client);
       } else {
-        return b.name.localeCompare(a.name);
+        return b.client.localeCompare(a.client);
       }
     });
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case "Pending":
-        return "bg-red-50 text-red-600 ring-red-600/10 ring-1";
+      case "pending":
+        return "bg-red-50 text-red-600 ring-orange-600/10 ring-1";
       case "On Hold":
         return "bg-yellow-50 text-yellow-600 ring-yellow-600/10 ring-1";
       case "Confirmed":
@@ -167,9 +140,7 @@ export default function Inquiry() {
               className="block w-full py-2.5 px-3 text-sm border border-gray-200 rounded-lg 
                             focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
             >
-              <option value="All Events">
-                All Events ({information.length})
-              </option>
+              <option value="All Events">All Events ({request.length})</option>
               <option value="Birthday Event">Birthday Event</option>
               <option value="Wedding Event">Wedding Event</option>
               <option value="Corporate Event">Corporate Event</option>
@@ -183,9 +154,9 @@ export default function Inquiry() {
                             focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
             >
               <option value="All Requests">
-                All Requests ({information.length})
+                All Requests ({request.length})
               </option>
-              <option value="Pending">Pending</option>
+              <option value="pending">Pending</option>
               <option value="On Hold">On Hold</option>
               <option value="Confirmed">Confirmed</option>
             </select>
@@ -201,21 +172,26 @@ export default function Inquiry() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                      <span className="text-orange-600 font-bold text-lg">
-                        {item.name?.[0].toUpperCase() || '?'}
-                      </span>
+                        <span className="text-orange-600 font-bold text-lg">
+                          {item.client?.[0].toUpperCase() || "?"}
+                        </span>
                       </div>
                       <div>
                         <h3 className="text-sm font-medium text-gray-900">
-                          {item.name}
+                          {item.client}
                         </h3>
                         <div className="flex items-center gap-x-2 mt-1">
                           <span className="text-sm text-gray-500">
-                            {item.event}
+                            {item.eventType}
                           </span>
-                          <span className="text-gray-300">•</span>
+                          <span className="text-orange-300">•</span>
                           <span className="text-sm text-gray-500">
-                            {item.dateOfEvent}
+                            {format(
+                              new Date(
+                                item.eventDate.split("/").reverse().join("-")
+                              ),
+                              "MMMM dd, yyyy"
+                            )}{" "}
                           </span>
                         </div>
                       </div>
