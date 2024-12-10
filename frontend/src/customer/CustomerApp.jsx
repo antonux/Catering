@@ -10,6 +10,7 @@ import Menu from './pages/menu'
 import Request from './pages/request'
 import Contacts from './pages/contacts'
 import Confirmation from './pages/confirmation'
+import RequestTracking from './pages/requestTracking'
 
 // componentes
 import Navbar from './components/navbar'
@@ -42,6 +43,11 @@ export default function App() {
               <Route 
                 path="/request"
                 element={<Request />}
+              />
+
+              <Route 
+                path="/request/tracking"
+                element={<RequestTracking />}
               />
 
               <Route 

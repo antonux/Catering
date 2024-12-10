@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'
 
 const RequestForm = () => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -72,7 +73,7 @@ const RequestForm = () => {
     <form
       id="r-form"
       onSubmit={handleSubmit}
-      className="w-[35rem] bg-white p-14 rounded-lg shadow-lg space-y-4"
+      className="w-[35rem] bg-white p-14 pb-5 rounded-lg shadow-lg space-y-4"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -236,6 +237,9 @@ const RequestForm = () => {
       >
         Submit
       </button>
+      <Link to="/request/tracking">
+      <p className="mt-5 hover:underline">Already sent a request?</p>
+      </Link>
     </form>
   );
 };

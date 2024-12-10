@@ -3,7 +3,7 @@ import AdminApp from './admin/AdminApp'
 
 export default function App() {
 
-  const role = 'admin'
+  const role = 'customer'
 
   return (
     role === 'admin' ? <AdminApp /> : <CustomerApp />
