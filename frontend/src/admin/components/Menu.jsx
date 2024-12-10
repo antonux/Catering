@@ -1,6 +1,6 @@
 import { Pen, Upload } from "lucide-react";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function Menu() { 
 
@@ -25,10 +25,20 @@ function Menu() {
         { id: 29, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
       ];
 
+    const imageSrc = ""
+    const DishName = ""
+
+
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [selectedSubcategory, setSelectedSubcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-
+    const [selectedDish, setSelectedDish] = useState({
+      name: "",
+      image: "/assets/admin/image.png",
+      category: "",
+      subCategory: "",
+      desc: ""
+    });
     const filteredItems = menuItems.filter((menu) =>
         (selectedCategory === "all" || menu.category.includes(selectedCategory)) &&
         (selectedSubcategory === "all" || menu.category.includes(selectedSubcategory)) &&
@@ -36,11 +46,23 @@ function Menu() {
     );
 
     const handleCategoryClick = (category) => {
-        setSelectedCategory((prevCategory) => (prevCategory === category ? "all" : category));
-        if (category !== "main-entree") {
-          setSelectedSubcategory("all"); //Reset subcategory
-        }
-      };
+      setSelectedCategory((prevCategory) => (prevCategory === category ? "all" : category));
+      if (category !== "main-entree") {
+        setSelectedSubcategory("all"); //Reset subcategory
+      }
+    };
+
+    const handleMenuItemClick = (menu) => {
+      // Update selected dish when a MenuItem is clicked
+      setSelectedDish({
+        name: menu.name,
+        image: menu.image,
+        category: menu.category[0], // First category
+        subCategory: menu.category[1] || "", // Subcategory if available
+        desc: menu.desc
+      });
+    };
+  
 
     // FILTER BUTTONS
     const FilterButton = () => (
@@ -109,7 +131,9 @@ function Menu() {
                                 Image={menu.image} 
                                 DishName={menu.name}
                                 DishDesc={menu.desc}
-                                onClick={() => console.log(`Clicked on ${menu.name}`)} 
+                                MainCategory={menu.category[0]}
+                                subCategory={menu.category[1] || ""}
+                                onClick={() =>handleMenuItemClick(menu)} 
                             />
                             ))
                         ) : (
@@ -117,15 +141,16 @@ function Menu() {
                         )}
                         </div>
                     </div>
-                    <div className="flex flex-col m-5 w-[30%] h-[100%]">
-                        <h1 className="mx-auto font-semibold">Dish Detail</h1>
-                        <input type="text" placeholder="Dish Name" className="focus:outline-none border m-5 p-2 rounded-lg" disabled={true}/>
-                        <button className="m-5 h-[300px] border">
-                            <img src="/assets/customer/images/menuCaldereta.jpg" className="w-full h-full object-cover rounded-lg"/>
-                        </button>
-                        <textarea type="text" placeholder="Dish Decription" className="m-5 p-2 focus:outline-none border h-[150px]" disabled={true}/>
-                            <Pen className="border m-5 p-1 rounded-sm w-[40px] h-[40px]"></Pen>
-                    </div>
+                    {selectedDish && (
+                      
+                      <SecondPanel
+                        DishName={selectedDish.name}
+                        Image={selectedDish.image}
+                        Category={selectedDish.category}
+                        subCategory={selectedDish.subCategory || ""}
+                        Desc={selectedDish.desc}
+                      />
+                    )}
                 </div>
             </div>
         </div>
@@ -134,17 +159,109 @@ function Menu() {
     return MenuDisplay
 }
 
-const MenuItem = ({ Image, DishName, DishDesc, onClick }) => (
-    <button
-      className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col"
-      onClick={onClick}
-    >
+// MENU ITEM FOR READ
+const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClick }) => (
+    <button className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col"
+      onClick={onClick}>
       <img className="w-full h-[150px] object-cover rounded-t-lg" src={Image} alt={DishName} />
       <h1 className="mx-auto mt-2 text-lg font-semibold">{DishName}</h1>
       <p className="ml-4 mt-1 text-sm text-gray-700">{DishDesc}</p>
     </button>
 )
 
+//SECOND PANEL COMPONENTS CREATE, READ, UPDATE, DELETE
+function SecondPanel({DishName, Image, Category, subCategory, Desc }){
+  const [selectedSelection, setSelectedSelection] = useState(Category || "");
+  const [selectedSubcategory, setSelectedSubcategory] = useState(subCategory || ""); 
+  const [imageSrc, setImageSrc] = useState(Image);
+  const fileInputRef = useRef(null);
+
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedSelection(category);
+    if (category !== "main-entree") {
+      setSelectedSubcategory("");
+    }
+  };
+
+  useEffect(() => {
+    setImageSrc(Image);
+  }, [Image]);
+
+  console.log(Category)
+  console.log(subCategory)
+  useEffect(() => {
+    setSelectedSelection(Category || "");
+  }, [Category]);
+
+  useEffect(() => {
+    setSelectedSubcategory(subCategory || "");
+  }, [subCategory]);
+  
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setImageSrc(objectURL);
+    }
+  };
+  
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  return(
+<>
+      <div className="flex flex-col m-5 w-[30%] h-[100%]">
+        <h1 className="mx-auto font-semibold">Dish Detail</h1>
+        <input type="text" placeholder={DishName ? DishName : "Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg" disabled={true}/>
+        <button className="relative m-5 h-[300px] group" onClick={handleImageClick}>
+            <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="text-white text-lg font-semibold">Upload Photo</span>
+            </div>
+        </button>
+        <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+        {/* CATEGORY AND SUBCAT */}
+        <div className="flex-col">
+          <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange} value={selectedSelection} disabled>
+              <option value="">Dish Type</option>
+              <option value="soup">SOUP</option>
+              <option value="main-entree">MAINS</option>
+              <option value="dessert">DESSERT</option>
+          </select>
+          {selectedSelection === "main-entree" && (
+            <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange} value={selectedSubcategory}>
+              <option value="pork">Pork</option>
+              <option value="beef">Beef</option>
+              <option value="poultry">Poultry</option>
+              <option value="vegetable">Vegetable</option>
+            </select>
+          )}
+        </div>
+        <textarea type="text" placeholder={Desc ? Desc : "Dish Decription"} className="m-5 p-2 focus:outline-none border h-[150px]" disabled={true}/>
+        {/* HANDLE CREATE, UPDATE, DELETE */}
+        <div className="flex-col">
+          <button className="m-5 p-2 w-[20%] rounded bg-amber-400">
+            <h1 className="font-semibold text-white">EDIT</h1>
+          </button>
+          <button className="mr-5 p-2 w-[20%] rounded bg-green-500">
+            <h1 className="font-semibold text-white">SAVE</h1>
+          </button>
+          <button className="mr-5 p-2 w-[20%] rounded bg-red-400">
+            <h1 className="font-semibold text-white">DELETE</h1>
+          </button>
+        </div>
+    </div>
+    </>
+  )
+}
+
+// FLOATING SUBCATEGORY FOR MAINS
 const SubcategoryDropdown = ({ selectedSubcategory, setSelectedSubcategory }) => (
     <div className="relative">
       <div className="absolute right-10 bg-white border rounded-lg shadow-md p-3 z-10">
@@ -176,9 +293,17 @@ const SubcategoryDropdown = ({ selectedSubcategory, setSelectedSubcategory }) =>
           className={`block px-4 py-2 w-full text-left ${
             selectedSubcategory === "chicken" ? "bg-gray-200" : ""
           }`}
-          onClick={() => setSelectedSubcategory("chicken")}
+          onClick={() => setSelectedSubcategory("poultry")}
         >
-          Chicken
+          Poultry
+        </button>
+        <button
+          className={`block px-4 py-2 w-full text-left ${
+            selectedSubcategory === "vegetable" ? "bg-gray-200" : ""
+          }`}
+          onClick={() => setSelectedSubcategory("vegetable")}
+        >
+          Vegetable
         </button>
       </div>
     </div>
