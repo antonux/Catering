@@ -7,7 +7,7 @@ const navbar = () => {
   const { pathname } = useLocation();
 
   React.useEffect(() => {
-   
+
     window.scrollTo(0, 0);
   }, [pathname]);
 
@@ -38,18 +38,16 @@ const navbar = () => {
   }, [lastScrollY]);
 
   const activeLink = (isActive) =>
-  `flex items-center justify-center h-16 px-3 py-2 text-md ${
-    isActive
+    `flex items-center justify-center h-16 px-3 py-2 text-md ${isActive
       ? "text-[#191716] border-b-2 border-yellow-300"
       : "text-[#7f8698] border-b-2 border-transparent hover:text-[#564452] hover:border-[#d1d5db] transition duration-300"
-  }`;
+    }`;
 
 
   return (
-      <div
-      className={`navbar z-50 font-roboto sticky top-0 transition-transform duration-300 ease-in-out ${
-        showNavbar ? 'md:translate-y-0' : 'md:-translate-y-full'
-      }`}
+    <div
+      className={`navbar z-50 font-roboto sticky top-0 transition-transform duration-300 ease-in-out ${showNavbar ? 'md:translate-y-0' : 'md:-translate-y-full'
+        }`}
     >
       <nav className="bg-[#ffffff] shadow-md">
         <div className="px-2 sm:px-6 lg:px-8">
@@ -120,7 +118,7 @@ const navbar = () => {
                   <NavLink
                     to="/"
                     className={({ isActive }) => activeLink(isActive)}
-                    >
+                  >
                     Home
                   </NavLink>
                   <NavLink
