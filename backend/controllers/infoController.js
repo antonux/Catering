@@ -25,16 +25,13 @@ const getInfo = async (req, res) => {
     res.status(200).json(info)
 }
 
-
-
-
 // create a new info
 const createInfo = async (req, res) => {
-    const {title, count, weight} = req.body
+    const {eventDate, email, client, numberOfPeople, mobileNumber, eventType, eventAddress, optionalMessage, status} = req.body
 
     // add doc to db
     try {
-        const info = await Info.create({title, count, weight})
+        const info = await Info.create({eventDate, email, client, numberOfPeople, mobileNumber, eventType, eventAddress, optionalMessage, status})
         res.status(200).json(info)
     } catch (error) {
         res.status(400).json({error: error.message})
@@ -78,8 +75,6 @@ const updateInfo = async (req, res) => {
     res.status(200).json({title: info.title, message: "updated"})
 
 }
-
-
 
 
 module.exports = {

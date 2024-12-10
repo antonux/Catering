@@ -1,52 +1,53 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { 
-  LayoutDashboard, 
-  MessageSquare, 
-  Calendar, 
-  Menu as MenuIcon,
-  Archive, 
+import {
+  LayoutDashboard,
+  MessageSquare,
+  Calendar,
+  UtensilsCrossed as MenuIcon,
+  Archive,
   Settings,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Menu,
 } from "lucide-react";
 
 const menuItems = [
-  { 
-    title: "Dashboard", 
-    icon: LayoutDashboard, 
-    path: "/" 
+  {
+    title: "Dashboard",
+    icon: LayoutDashboard,
+    path: "/",
   },
-  { 
-    title: "Inquiries", 
-    icon: MessageSquare, 
-    path: "/AdminInquiry" 
+  {
+    title: "Inquiries",
+    icon: MessageSquare,
+    path: "/AdminInquiry",
   },
-  { 
-    title: "Event", 
-    icon: Calendar, 
-    path: "/Events" 
+  {
+    title: "Event",
+    icon: Calendar,
+    path: "/AdminEvent",
   },
-  { 
-    title: "Menu Option", 
-    icon: MenuIcon, 
-    path: "/Menu" 
+  {
+    title: "Menu",
+    icon: MenuIcon,
+    path: "/Menu",
   },
-  { 
-    title: "Archive", 
-    icon: Archive, 
-    path: "/Archive" 
+  {
+    title: "Inbox",
+    icon: Archive,
+    path: "/Archive",
   },
-  { 
-    title: "Profile Setting", 
-    icon: Settings, 
-    path: "/Settings" 
-  }
+  {
+    title: "Setting",
+    icon: Settings,
+    path: "/Settings",
+  },
 ];
 
 const Tooltip = ({ text, children, show }) => {
   if (!show) return children;
-  
+
   return (
     <div className="group relative flex">
       {children}
@@ -63,27 +64,30 @@ const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div 
+    <div
       className={`relative min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
-        ${isExpanded ? 'w-64' : 'w-16'}`}
+        ${isExpanded ? "w-64" : "w-16"}`}
     >
       {/* Toggle Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100"
+        className="absolute -right-3 top-[14px] bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100"
       >
-        {isExpanded ? 
-          <ChevronLeft className="w-4 h-4 text-gray-600" /> : 
+        {isExpanded ? (
+          <ChevronLeft className="w-4 h-4 text-gray-600" />
+        ) : (
           <ChevronRight className="w-4 h-4 text-gray-600" />
-        }
+        )}
       </button>
 
       {/* Logo Area */}
       <div className="flex items-center justify-center h-16 border-b border-gray-200">
         {isExpanded ? (
-          <h1 className="text-xl font-bold text-gray-800">Admin Panel</h1>
+          <h1 className="text-xl font-bold text-yellow-500">
+  Virtucio Catering
+</h1>
         ) : (
-          <span className="text-xl font-bold text-gray-800">A</span>
+          <Menu className="text-gray-800 w-6 h-6" />
         )}
       </div>
 
@@ -91,16 +95,17 @@ const Sidebar = () => {
       <nav className="p-4 space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
-          
+
           return (
             <Tooltip key={item.title} text={item.title} show={!isExpanded}>
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
                   `flex items-center px-3 py-2 rounded-lg transition-colors
-                  ${isActive 
-                    ? 'bg-blue-50 text-blue-600' 
-                    : 'text-gray-600 hover:bg-gray-50'
+                  ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-600 hover:bg-gray-50"
                   }`
                 }
               >
