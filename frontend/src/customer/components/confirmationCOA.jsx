@@ -1,9 +1,10 @@
 import SignatureCanvas from 'react-signature-canvas'
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import html2canvas from "html2canvas";
 
 const ConfirmationCOA = () => {
   const sigCanvasRef = useRef(null);
+  const [isDownloading, setIsDownloading] = useState(false)
 
   const clearCanvas = () => {
     sigCanvasRef.current.clear();
@@ -16,14 +17,10 @@ const ConfirmationCOA = () => {
     }
   };
 
-  const buttons = document.querySelectorAll('.button-class'); // Replace '.button-class' with your button's class
-
   const downloadAsImage = () => {
     const divElement = document.getElementById("captureDiv");
     if (divElement) {
-      buttons.forEach(button => {
-        button.style.display = 'none';
-      });
+      setIsDownloading(true)
       setTimeout(() => {
         html2canvas(divElement, { useCORS: true }) // Captures the div as canvas
           .then((canvas) => {
@@ -33,16 +30,13 @@ const ConfirmationCOA = () => {
             link.download = "captured-div.jpeg"; // File name
             link.click(); // Trigger download
             setTimeout(() => {
-              buttons.forEach(button => {
-                button.style.display = 'block';
-              });
+              setIsDownloading(false); // Reset after 4 seconds
             }, 3000);
           })
-      },2000)
-        .catch((err) => {
-          console.error("Error capturing div:", err);
-        });
-    } else {
+          .catch((err) => {
+            console.error("Error capturing div:", err);
+          });
+      }, 1000);
       console.error("Div not found!");
     }
   };
@@ -160,13 +154,13 @@ const ConfirmationCOA = () => {
             <div className="mt-2 space-x-2 flex">
               <button
                 onClick={clearCanvas}
-                className="button-class px-6 py-[3px] bg-red-500 text-white rounded hover:bg-red-600"
+                className={`button-class px-6 py-[3px] bg-red-500 text-white rounded hover:bg-red-600 ${isDownloading ? "hidden" : "block"}`}
               >
                 Clear
               </button>
               <button
                 onClick={undoLastStroke}
-                className="button-class px-6 py-[3px] bg-blue-500 text-white rounded hover:bg-blue-600"
+                className={`button-class px-6 py-[3px] bg-blue-500 text-white rounded hover:bg-blue-600 ${isDownloading ? "hidden" : "block"}`}
               >
                 Undo
               </button>
