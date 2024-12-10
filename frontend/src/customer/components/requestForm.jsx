@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const RequestForm = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
   const [formData, setFormData] = useState({
     eventDate: "",
     email: "",
@@ -57,8 +58,15 @@ const RequestForm = () => {
     }
   };
 
-  const getInputClass = () =>
-    `w-full h-11 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#d4af37] bg-[#ebecee] placeholder-[#797575]`;
+  const getInputClass = (isDisabled) => {
+    return `w-full h-11 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#d4af37] ${isDisabled ? "text-gray-400 bg-gray-100" : "bg-[#ebecee] placeholder-[#797575]"}`;
+  };
+
+  const handleDateUnsetClick = () => {
+    const dateInput = document.getElementById('date');
+    dateInput.disabled = !dateInput.disabled;
+    setIsDisabled((prev) => !prev);
+  };
 
   return (
     <form
@@ -68,22 +76,39 @@ const RequestForm = () => {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label
-            htmlFor="eventDate"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Event Date
-          </label>
+          <div className="flex justify-between">
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Event Date
+            </label>
+            <div className="flex items-center gap-1 mb-1">
+              <input
+                type="checkbox"
+                id="date-unset"
+                name="date"
+                value="date"
+                onClick={handleDateUnsetClick}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              />
+              <label
+                htmlFor="date-unset"
+                className="text-sm font-medium text-gray-700"
+              >
+                To be determined
+              </label>
+            </div>
+          </div>
           <input
-            id="eventDate"
+            id="date"
             type="date"
             min="2024-01-01"
-            value={formData.eventDate}
-            onChange={handleInputChange}
-            className={getInputClass()}
+            className={`${getInputClass(isDisabled)}`}
             required
           />
         </div>
+
         <div>
           <label
             htmlFor="email"
