@@ -25,20 +25,10 @@ function Menu() {
         { id: 29, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
       ];
 
-    const imageSrc = ""
-    const DishName = ""
-
-
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [selectedSubcategory, setSelectedSubcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedDish, setSelectedDish] = useState({
-      name: "",
-      image: "/assets/admin/image.png",
-      category: "",
-      subCategory: "",
-      desc: ""
-    });
+    const [selectedDish, setSelectedDish] = useState("");
     const filteredItems = menuItems.filter((menu) =>
         (selectedCategory === "all" || menu.category.includes(selectedCategory)) &&
         (selectedSubcategory === "all" || menu.category.includes(selectedSubcategory)) &&
@@ -123,7 +113,7 @@ function Menu() {
                             />
                         )}
                         {/* MENU ITEMS CONTAINER */}
-                        <div className="flex flex-wrap overflow-y-auto h-[800px]">
+                        <div className="flex flex-wrap overflow-y-auto h-[800px]">                          
                         {filteredItems.length > 0 ? (
                             filteredItems.map((menu, index) => (
                             <MenuItem
@@ -141,15 +131,18 @@ function Menu() {
                         )}
                         </div>
                     </div>
-                    {selectedDish && (
-                      
-                      <SecondPanel
+                    {selectedDish ? (
+                      <DishAction
                         DishName={selectedDish.name}
                         Image={selectedDish.image}
                         Category={selectedDish.category}
                         subCategory={selectedDish.subCategory || ""}
                         Desc={selectedDish.desc}
+                        Condition={true}
+                        onClose={() => setSelectedDish(null)}
                       />
+                    ) : (
+                      <DishAdd />
                     )}
                 </div>
             </div>
@@ -169,12 +162,91 @@ const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClic
     </button>
 )
 
+function DishAdd(){
+  const [imageSrc, setImageSrc] = useState("/assets/admin/image.png");
+  const [dishName, setDishName] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedSelection, setSelectedSelection] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const fileInputRef = useRef(null);
+
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedSelection(category);
+    if (category !== "main-entree") {
+      setSelectedSubcategory("");
+    }
+  };
+
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setImageSrc(objectURL);
+    }
+  };
+  
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  return(
+      <>
+        <div className="flex flex-col m-5 w-[30%] h-[100%]">
+          <h1 className="mx-auto font-semibold">Add Dish</h1>
+          <input type="text" placeholder={"Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg"/>
+          <button className="relative m-5 h-[300px] group" onClick={handleImageClick}>
+              <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white text-lg font-semibold">Upload Photo</span>
+              </div>
+          </button>
+          <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+          {/* CATEGORY AND SUBCAT */}
+          <div className="flex-col">
+            <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange}>
+                <option value="">Dish Type</option>
+                <option value="soup">SOUP</option>
+                <option value="main-entree">MAINS</option>
+                <option value="dessert">DESSERT</option>
+            </select>
+            {selectedSelection === "main-entree" && (
+              <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange}>
+                <option value="pork">Pork</option>
+                <option value="beef">Beef</option>
+                <option value="poultry">Poultry</option>
+                <option value="vegetable">Vegetable</option>
+              </select>
+            )}
+          </div>
+          <textarea type="text" placeholder={"Dish Decription"} className="m-5 p-2 focus:outline-none border h-[150px]"/>
+          {/* HANDLE CREATE, UPDATE, DELETE */}
+          <div className="flex-col item">
+            <button className="m-5 p-2 w-[20%] rounded bg-green-700" >
+              <h1 className="font-semibold text-white">ADD DISH</h1>
+            </button>
+          </div>
+      </div>
+    </>
+  )
+}
+
 //SECOND PANEL COMPONENTS CREATE, READ, UPDATE, DELETE
-function SecondPanel({DishName, Image, Category, subCategory, Desc }){
+function DishAction({DishName, Image, Category, subCategory, Desc, Condition, onClose }){
+  const [isDisabled, setisDisabled] = useState(Condition || false)
   const [selectedSelection, setSelectedSelection] = useState(Category || "");
-  const [selectedSubcategory, setSelectedSubcategory] = useState(subCategory || ""); 
+  const [selectedSubcategory, setSelectedSubcategory] = useState(subCategory || "");
+  const [dscription, setDesc] = useState(Desc) 
   const [imageSrc, setImageSrc] = useState(Image);
   const fileInputRef = useRef(null);
+
+  const toggleDisabled = () => (
+    setisDisabled(!isDisabled)
+  )
 
   const handleCategoryChange = (e) => {
     const category = e.target.value;
@@ -188,8 +260,6 @@ function SecondPanel({DishName, Image, Category, subCategory, Desc }){
     setImageSrc(Image);
   }, [Image]);
 
-  console.log(Category)
-  console.log(subCategory)
   useEffect(() => {
     setSelectedSelection(Category || "");
   }, [Category]);
@@ -197,6 +267,10 @@ function SecondPanel({DishName, Image, Category, subCategory, Desc }){
   useEffect(() => {
     setSelectedSubcategory(subCategory || "");
   }, [subCategory]);
+
+  useEffect(() => {
+    setDesc(Desc || "Dish Discription")
+  }, [Desc])
   
   const handleSubcategoryChange = (e) => {
     setSelectedSubcategory(e.target.value);
@@ -215,48 +289,53 @@ function SecondPanel({DishName, Image, Category, subCategory, Desc }){
   };
 
   return(
-<>
-      <div className="flex flex-col m-5 w-[30%] h-[100%]">
-        <h1 className="mx-auto font-semibold">Dish Detail</h1>
-        <input type="text" placeholder={DishName ? DishName : "Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg" disabled={true}/>
-        <button className="relative m-5 h-[300px] group" onClick={handleImageClick}>
-            <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span className="text-white text-lg font-semibold">Upload Photo</span>
-            </div>
-        </button>
-        <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
-        {/* CATEGORY AND SUBCAT */}
-        <div className="flex-col">
-          <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange} value={selectedSelection} disabled>
-              <option value="">Dish Type</option>
-              <option value="soup">SOUP</option>
-              <option value="main-entree">MAINS</option>
-              <option value="dessert">DESSERT</option>
-          </select>
-          {selectedSelection === "main-entree" && (
-            <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange} value={selectedSubcategory}>
-              <option value="pork">Pork</option>
-              <option value="beef">Beef</option>
-              <option value="poultry">Poultry</option>
-              <option value="vegetable">Vegetable</option>
+      <>
+        <div className="flex flex-col m-5 w-[30%] h-[100%]">
+          <div className="flex flex-1">
+            <h1 className="px-4 py-2 mx-auto font-semibold">Dish Detail</h1>
+            <button onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+              Close
+            </button>
+          </div>
+          <input type="text" placeholder={DishName ? DishName : "Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg" disabled={isDisabled}/>
+          <button className="relative m-5 h-[300px] group" onClick={handleImageClick} disabled={isDisabled}>
+              <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white text-lg font-semibold">Upload Photo</span>
+              </div>
+          </button>
+          <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+          {/* CATEGORY AND SUBCAT */}
+          <div className="flex-col">
+            <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange} value={selectedSelection} disabled={isDisabled}>
+                <option value="">Dish Type</option>
+                <option value="soup">SOUP</option>
+                <option value="main-entree">MAINS</option>
+                <option value="dessert">DESSERT</option>
             </select>
-          )}
-        </div>
-        <textarea type="text" placeholder={Desc ? Desc : "Dish Decription"} className="m-5 p-2 focus:outline-none border h-[150px]" disabled={true}/>
-        {/* HANDLE CREATE, UPDATE, DELETE */}
-        <div className="flex-col">
-          <button className="m-5 p-2 w-[20%] rounded bg-amber-400">
-            <h1 className="font-semibold text-white">EDIT</h1>
-          </button>
-          <button className="mr-5 p-2 w-[20%] rounded bg-green-500">
-            <h1 className="font-semibold text-white">SAVE</h1>
-          </button>
-          <button className="mr-5 p-2 w-[20%] rounded bg-red-400">
-            <h1 className="font-semibold text-white">DELETE</h1>
-          </button>
-        </div>
-    </div>
+            {selectedSelection === "main-entree" && (
+              <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange} value={selectedSubcategory} disabled={isDisabled}>
+                <option value="pork">Pork</option>
+                <option value="beef">Beef</option>
+                <option value="poultry">Poultry</option>
+                <option value="vegetable">Vegetable</option>
+              </select>
+            )}
+          </div>
+          <textarea type="text" placeholder={dscription ? dscription : "Dish Decription"} className="m-5 p-2 focus:outline-none border h-[150px]" disabled={isDisabled} />
+          {/* HANDLE CREATE, UPDATE, DELETE */}
+          <div className="flex-col">
+            <button className="m-5 p-2 w-[20%] rounded bg-amber-400" onClick={toggleDisabled}>
+              <h1 className="font-semibold text-white">EDIT</h1>
+            </button>
+            <button className="mr-5 p-2 w-[20%] rounded bg-green-700" >
+              <h1 className="font-semibold text-white">SAVE</h1>
+            </button>
+            <button className="mr-5 p-2 w-[20%] rounded bg-red-400">
+              <h1 className="font-semibold text-white">DELETE</h1>
+            </button>
+          </div>
+      </div>
     </>
   )
 }
