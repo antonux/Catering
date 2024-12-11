@@ -15,9 +15,13 @@ app.use(express.json()); // Middleware to parse JSON requests
 
 // Log requests for debugging
 app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+    console.log(req.path, req.method)
+    next()
+})
+
+//uploading of static images in the project folder
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Uploading static images in the project folder
 const path = require("path");

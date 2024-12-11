@@ -5,6 +5,8 @@ import html2canvas from "html2canvas";
 const ConfirmationCOA = () => {
   const sigCanvasRef = useRef(null);
   const [isDownloading, setIsDownloading] = useState(false)
+  const [fileName, setFileName] = useState('');
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const clearCanvas = () => {
     sigCanvasRef.current.clear();
@@ -37,6 +39,14 @@ const ConfirmationCOA = () => {
             console.error("Error capturing div:", err);
           });
       }, 1000);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+      setIsUploaded(true); // Set to true when a file is uploaded
     }
   };
 
@@ -134,7 +144,7 @@ const ConfirmationCOA = () => {
         </div>
 
         <div className="2bottomboxes flex justify-between">
-          <div className="admin flex items-center gap-3 mb-5">
+          <div className="admin flex items-center gap-3 mt-10">
             <h1 className=''>At your Services,</h1>
             <div className='flex flex-col items-center'>
               <img className="size-[6rem] object-cover" src="/assets/customer/images/adminsign.png" alt="" />
@@ -142,14 +152,13 @@ const ConfirmationCOA = () => {
               <h1>Marie Joy C. Virtucio</h1>
               <h1>Marketing and Operations Manager</h1>
             </div>
-
           </div>
           <div className="signat flex flex-col items-center">
-            <h1 className='text-center text-base font-medium bg-transparent block'>I/We Accept:</h1>
+            <h1 className='text-center text-base bg-transparent block'>I/We Accept:</h1>
             <SignatureCanvas penColor='black' ref={sigCanvasRef}
               canvasProps={{ width: 325, height: 150, className: `sigCanvas bg-[#f8f9fd] rounded-lg border-[1px] border-[#343d3f] ${isDownloading ? 'bg-transparent border-none' : ''}` }} />
             <input type="text" placeholder='Enter your full name' className={`leading-8 mt-1 z-50 border-b-[1px] border-[#343d3f] focus:outline-none text-center w-2/3 ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`} />
-            <p className={`text-center z-50 font-medium ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`}>Signature over printed name</p>
+            <p className={`text-center z-50 ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`}>Signature over printed name</p>
             <div className="mt-2 space-x-2 flex">
               <button
                 onClick={clearCanvas}
@@ -193,10 +202,26 @@ const ConfirmationCOA = () => {
           <h1 className='text-center italic font-medium'>Upload Contract of Agreement for verification</h1>
           <div className='flex justify-between w-full px-3 pt-6 mb-10'>
             <div>
-              <button onClick={downloadAsImage}>Download Contract</button>
+              <button className='underline hover:text-gray-600' onClick={downloadAsImage}>Download Contract</button>
             </div>
             <div>
-              <button>Upload Contract</button>
+              <input
+                type="file"
+                id="fileUpload"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              {!isUploaded && (
+                <button
+                  className='underline hover:text-gray-600'
+                  onClick={() => document.getElementById('fileUpload').click()}
+                >
+                  Upload Contract
+                </button>
+              )}
+              {isUploaded && (
+                <p className="text-green-700">{fileName}</p> // Display the file name
+              )}
             </div>
           </div>
           <button className='bg-green-500 mt-10 text-white font-normal py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500'>
