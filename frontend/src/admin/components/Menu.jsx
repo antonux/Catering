@@ -1,34 +1,28 @@
-import { Pen, Upload } from "lucide-react";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import axios from 'axios';
 
 function Menu() { 
 
-    const menuItems = [
-        { id: 1, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-        { id: 2, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-        { id: 3, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-        { id: 9, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-        { id: 10, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-        { id: 11, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-        { id: 12, desc: "dadadadad", name: "Mango Float", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-        { id: 15, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-        { id: 16, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-        { id: 17, desc: "dadadadad", name: "Mango Float", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-        { id: 18, desc: "dadadadad", name: "Chicken Cordon Blue", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-        { id: 20, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-        { id: 21, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-        { id: 23, desc: "dadadadad", name: "Chicken Cordon Blue", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-        { id: 24, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-        { id: 27, desc: "dadadadad", name: "Mango Float", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-        { id: 28, desc: "dadadadad", name: "Chicken Cordon Blue", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-        { id: 29, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-      ];
+    const [menuItems, setMenuItems] = useState([]);
+
+    useEffect(() => {
+      const fetchMenuItems = async () => {
+        try {
+          const response = await fetch("http://localhost:4000/api/menu"); // Replace <PORT> with the correct port
+          const data = await response.json();
+          setMenuItems(data);
+        } catch (error) {
+          console.error("Error fetching menu items:", error);
+        }
+      };
+      fetchMenuItems();
+    }, []);
 
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [selectedSubcategory, setSelectedSubcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-
+    const [selectedDish, setSelectedDish] = useState("");
     const filteredItems = menuItems.filter((menu) =>
         (selectedCategory === "all" || menu.category.includes(selectedCategory)) &&
         (selectedSubcategory === "all" || menu.category.includes(selectedSubcategory)) &&
@@ -36,11 +30,24 @@ function Menu() {
     );
 
     const handleCategoryClick = (category) => {
-        setSelectedCategory((prevCategory) => (prevCategory === category ? "all" : category));
-        if (category !== "main-entree") {
-          setSelectedSubcategory("all"); //Reset subcategory
-        }
-      };
+      setSelectedCategory((prevCategory) => (prevCategory === category ? "all" : category));
+      if (category !== "main-entree") {
+        setSelectedSubcategory("all"); //Reset subcategory
+      }
+    };
+
+    const handleMenuItemClick = (menu) => {
+      // Update selected dish when a MenuItem is clicked
+      setSelectedDish({
+        menuID: menu._id,
+        name: menu.name,
+        image: `http://localhost:4000${menu.image}`,
+        category: menu.category[0], // First category
+        subCategory: menu.category[1] || "", // Subcategory if available
+        desc: menu.desc
+      });
+    };
+  
 
     // FILTER BUTTONS
     const FilterButton = () => (
@@ -101,15 +108,17 @@ function Menu() {
                             />
                         )}
                         {/* MENU ITEMS CONTAINER */}
-                        <div className="flex flex-wrap overflow-y-auto h-[800px]">
+                        <div className="flex flex-wrap overflow-y-auto h-[800px]">                          
                         {filteredItems.length > 0 ? (
                             filteredItems.map((menu, index) => (
                             <MenuItem
-                                key={menu.id} 
-                                Image={menu.image} 
+                                key={menu._id} 
+                                Image={`http://localhost:4000${menu.image}`}
                                 DishName={menu.name}
                                 DishDesc={menu.desc}
-                                onClick={() => console.log(`Clicked on ${menu.name}`)} 
+                                MainCategory={menu.category[0]}
+                                subCategory={menu.category[1] || ""}
+                                onClick={() =>handleMenuItemClick(menu)} 
                             />
                             ))
                         ) : (
@@ -117,15 +126,20 @@ function Menu() {
                         )}
                         </div>
                     </div>
-                    <div className="flex flex-col m-5 w-[30%] h-[100%]">
-                        <h1 className="mx-auto font-semibold">Dish Detail</h1>
-                        <input type="text" placeholder="Dish Name" className="focus:outline-none border m-5 p-2 rounded-lg" disabled={true}/>
-                        <button className="m-5 h-[300px] border">
-                            <img src="/assets/customer/images/menuCaldereta.jpg" className="w-full h-full object-cover rounded-lg"/>
-                        </button>
-                        <textarea type="text" placeholder="Dish Decription" className="m-5 p-2 focus:outline-none border h-[150px]" disabled={true}/>
-                            <Pen className="border m-5 p-1 rounded-sm w-[40px] h-[40px]"></Pen>
-                    </div>
+                    {selectedDish ? (
+                      <DishAction
+                        DishID={selectedDish.menuID}
+                        DishName={selectedDish.name}
+                        Image={selectedDish.image}
+                        Category={selectedDish.category}
+                        subCategory={selectedDish.subCategory || ""}
+                        Desc={selectedDish.desc}
+                        Condition={true}
+                        onClose={() => setSelectedDish(null)}
+                      />
+                    ) : (
+                      <DishAdd />
+                    )}
                 </div>
             </div>
         </div>
@@ -134,17 +148,311 @@ function Menu() {
     return MenuDisplay
 }
 
-const MenuItem = ({ Image, DishName, DishDesc, onClick }) => (
-    <button
-      className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col"
-      onClick={onClick}
-    >
+// MENU ITEM FOR READ
+const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClick }) => (
+    <button className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col"
+      onClick={onClick}>
       <img className="w-full h-[150px] object-cover rounded-t-lg" src={Image} alt={DishName} />
       <h1 className="mx-auto mt-2 text-lg font-semibold">{DishName}</h1>
       <p className="ml-4 mt-1 text-sm text-gray-700">{DishDesc}</p>
     </button>
 )
 
+//SECOND PANEL COMPONENTS CREATE MENU ITEMS
+function DishAdd(){
+  const [imageSrc, setImageSrc] = useState("/assets/admin/image.png");
+  const [dishName, setDishName] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedSelection, setSelectedSelection] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedSelection(category);
+    if (category !== "main-entree") {
+      setSelectedSubcategory("");
+    }
+  };
+
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setImageSrc(objectURL);
+      setImageFile(file);
+    }
+  };
+  
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleAddDish = async () => {
+    if (!dishName || !description || !selectedSelection || !imageFile) {
+      alert("Please fill out all fields and upload an image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("dishName", dishName);
+    formData.append("description", description);
+    formData.append("category", selectedSelection);
+    formData.append("subcategory", selectedSubcategory);
+    formData.append("image", imageFile); // Add the image file
+
+    try {
+      const response = await axios.post("http://localhost:4000/api/menu/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201) {
+        alert("Dish added successfully!");
+        // Optionally, reset the form here
+        setDishName("");
+        setDescription("");
+        setSelectedSelection("");
+        setSelectedSubcategory("");
+        setImageSrc("/assets/admin/image.png");
+        setImageFile(null);
+
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error adding dish:", error);
+      alert("An error occurred while adding the dish.");
+    }
+  };
+
+  return(
+      <>
+        <div className="flex flex-col m-5 w-[30%] h-[100%]">
+          <h1 className="mx-auto font-semibold">Add Dish</h1>
+          <input type="text" placeholder={"Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg" value={dishName} onChange={(e) => setDishName(e.target.value)}/>
+          <button className="relative m-5 h-[300px] group" onClick={handleImageClick}>
+              <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white text-lg font-semibold">Upload Photo</span>
+              </div>
+          </button>
+          <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+          {/* CATEGORY AND SUBCAT */}
+          <div className="flex-col">
+            <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange} value={selectedSelection}>
+                <option value="">Dish Type</option>
+                <option value="soup">SOUP</option>
+                <option value="main-entree">MAINS</option>
+                <option value="dessert">DESSERT</option>
+            </select>
+            {selectedSelection === "main-entree" && (
+              <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange} value={selectedSubcategory}>
+                <option value="">Dish Subcategory</option>
+                <option value="pork">Pork</option>
+                <option value="beef">Beef</option>
+                <option value="poultry">Poultry</option>
+                <option value="vegetable">Vegetable</option>
+              </select>
+            )}
+          </div>
+          <textarea type="text" placeholder={"Dish Decription"} className="m-5 p-2 focus:outline-none border h-[150px]" value={description} onChange={(e) => setDescription(e.target.value)}/>
+          {/* HANDLE CREATE*/}
+          <div className="flex-col item">
+            <button className="m-5 p-2 w-[20%] rounded bg-green-700"  onClick={handleAddDish} >
+              <h1 className="font-semibold text-white">ADD DISH</h1>
+            </button>
+          </div>
+      </div>
+    </>
+  )
+}
+
+//SECOND PANEL COMPONENTS, READ, UPDATE, DELETE
+function DishAction({DishID, DishName, Image, Category, subCategory, Desc, Condition, onClose }){ 
+  const [dishName, setDishName] = useState(DishName || "");
+  const [dishDesc, setDishDesc] = useState(Desc || "")
+  const [isDisabled, setisDisabled] = useState(Condition || false)
+  const [selectedSelection, setSelectedSelection] = useState(Category || "");
+  const [selectedSubcategory, setSelectedSubcategory] = useState(subCategory || "");
+  const [imageSrc, setImageSrc] = useState(Image);
+  const fileInputRef = useRef(null);
+
+  const toggleDisabled = () => (
+    setisDisabled(!isDisabled)
+  )
+
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedSelection(category);
+    if (category !== "main-entree") {
+      setSelectedSubcategory("");
+    }
+  };
+  
+  useEffect(() => {
+    setDishName(DishName);
+  }, [DishName])
+
+  useEffect(() => {
+    setDishDesc(Desc);
+  }, [Desc])
+
+  useEffect(() => {
+    setImageSrc(Image);
+  }, [Image]);
+
+  useEffect(() => {
+    setSelectedSelection(Category || "");
+  }, [Category]);
+
+  useEffect(() => {
+    setSelectedSubcategory(subCategory || "");
+  }, [subCategory]);
+  
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setImageSrc(objectURL); // Updates preview
+      setImageFile(file); // Store the file for upload
+    }
+  };
+  
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+//UPDATE DISH
+  const handleUpdate = async () => {
+    const updatedDish = new FormData();
+
+    // Only append fields if there are changes
+    if (dishName !== DishName) updatedDish.append('name', dishName);
+    if (dishDesc !== Desc) updatedDish.append('description', dishDesc);
+    if (selectedSelection !== Category) updatedDish.append('category', selectedSelection);
+    if (selectedSubcategory !== subCategory) updatedDish.append('subCategory', selectedSubcategory);
+
+    // If a new image is selected, append it to FormData
+    const fileInput = fileInputRef.current;
+    if (fileInput && fileInput.files.length > 0) {
+      updatedDish.append('image', fileInput.files[0]); // Ensure 'image' matches the field name in backend
+    }
+
+    // Check if there are no changes
+    if (updatedDish.entries().next().done) {
+      alert("No changes detected. Update not required.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:4000/api/menu/update/${DishID}`, {
+        method: "PUT",
+        body: updatedDish,
+      });
+
+      if (response.ok) {
+        alert("Dish updated successfully");
+        setisDisabled(true); // Lock the form after success
+
+        window.location.reload();
+      } else {
+        const errorMessage = await response.text();
+        alert(`Failed to update the dish: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error("Error updating dish:", error);
+      alert("An error occurred while updating the dish. Please try again.");
+    }
+  };
+
+  //DELETE DISH
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this dish?");
+    if (!confirmDelete) return; // If user cancels, do nothing
+  
+    try {
+      const response = await fetch(`http://localhost:4000/api/menu/delete/${DishID}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        alert("Dish deleted successfully");
+        onClose(); // Close the panel after deletion
+
+        window.location.reload();
+      } else {
+        const errorMessage = await response.text();
+        alert(`Failed to delete the dish: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error("Error deleting dish:", error);
+      alert("An error occurred while deleting the dish. Please try again.");
+    }
+  };
+
+  return(
+      <>
+        <div className="flex flex-col m-5 w-[30%] h-[100%]">
+          <div className="flex flex-1">
+            <h1 className="px-4 py-2 mx-auto font-semibold">Dish Detail</h1>
+            <button onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+              Close
+            </button>
+          </div>
+          <input type="text" value={dishName} className="focus:outline-none border m-5 p-2 rounded-lg" disabled={isDisabled} onChange={(e) => setDishName(e.target.value)}/>
+          <button className="relative m-5 h-[300px] group" onClick={handleImageClick} disabled={isDisabled}>
+              <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white text-lg font-semibold">Upload Photo</span>
+              </div>
+          </button>
+          <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+          {/* CATEGORY AND SUBCAT */}
+          <div className="flex-col">
+            <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange} value={selectedSelection} disabled={isDisabled}>
+                <option value="">Dish Type</option>
+                <option value="soup">SOUP</option>
+                <option value="main-entree">MAINS</option>
+                <option value="dessert">DESSERT</option>
+            </select>
+            {selectedSelection === "main-entree" && (
+              <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange} value={selectedSubcategory} disabled={isDisabled}>
+                <option value="pork">Pork</option>
+                <option value="beef">Beef</option>
+                <option value="poultry">Poultry</option>
+                <option value="vegetable">Vegetable</option>
+              </select>
+            )}
+          </div>
+          <textarea type="text" value={dishDesc} className="m-5 p-2 focus:outline-none border h-[150px]" disabled={isDisabled} onChange={(e) => setDishDesc(e.target.value)}/>
+          {/* HANDLE CREATE, UPDATE, DELETE */}
+          <div className="flex-col">
+            <button className="m-5 p-2 w-[20%] rounded bg-amber-400" onClick={toggleDisabled}>
+              <h1 className="font-semibold text-white">EDIT</h1>
+            </button>
+            <button className="mr-5 p-2 w-[20%] rounded bg-green-700" onClick={handleUpdate} disabled={isDisabled}>
+              <h1 className="font-semibold text-white">SAVE</h1>
+            </button>
+            <button className="mr-5 p-2 w-[20%] rounded bg-red-400" onClick={handleDelete}>
+              <h1 className="font-semibold text-white">DELETE</h1>
+            </button>
+          </div>
+      </div>
+    </>
+  )
+}
+
+// FLOATING SUBCATEGORY FOR MAINS
 const SubcategoryDropdown = ({ selectedSubcategory, setSelectedSubcategory }) => (
     <div className="relative">
       <div className="absolute right-10 bg-white border rounded-lg shadow-md p-3 z-10">
@@ -174,11 +482,19 @@ const SubcategoryDropdown = ({ selectedSubcategory, setSelectedSubcategory }) =>
         </button>
         <button
           className={`block px-4 py-2 w-full text-left ${
-            selectedSubcategory === "chicken" ? "bg-gray-200" : ""
+            selectedSubcategory === "poultry" ? "bg-gray-200" : ""
           }`}
-          onClick={() => setSelectedSubcategory("chicken")}
+          onClick={() => setSelectedSubcategory("poultry")}
         >
-          Chicken
+          Poultry
+        </button>
+        <button
+          className={`block px-4 py-2 w-full text-left ${
+            selectedSubcategory === "vegetable" ? "bg-gray-200" : ""
+          }`}
+          onClick={() => setSelectedSubcategory("vegetable")}
+        >
+          Vegetable
         </button>
       </div>
     </div>

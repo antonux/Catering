@@ -6,17 +6,20 @@ import {
   Eye,
   ArrowDownUp,
   ArrowUpDown,
+  Mail,
 } from "lucide-react";
 import CustomerInformationModal from "./modals/CustomerInformationModal";
 import InquiryForm from "./modals/InquiryForm";
+import EmailModal from "./modals/EmailModal";
 import { isToday, isThisWeek, isThisMonth, isThisYear, format } from "date-fns";
 
 export default function Inquiry() {
   const [request, setRequest] = useState([]);
+  const [viewEmail, setViewEmail] = useState(null);
 
   useEffect(() => {
     const fetchInquiries = async () => {
-      const response = await fetch("http://localhost:4000/api/info");
+      const response = await fetch("http://localhost:4000/api/request");
       const json = await response.json();
 
       if (response.ok) {
@@ -92,14 +95,14 @@ export default function Inquiry() {
               Manage your event inquiries and requests
             </p>
           </div>
-          <button
+          {/* <button
             onClick={() => setViewForm(true)}
             className="inline-flex items-center gap-x-2 bg-blue-600 px-4 py-2.5 rounded-lg text-white 
                         hover:bg-blue-500 transition-colors shadow-sm"
           >
             <Plus className="h-4 w-4" />
             <span className="text-sm font-medium">New Inquiry</span>
-          </button>
+          </button> */}
         </div>
 
         {/* Filters Section */}
@@ -205,8 +208,11 @@ export default function Inquiry() {
                         {item.status}
                       </span>
                       <div className="flex items-center gap-x-2">
-                        <button className="p-2 text-gray-400 hover:text-gray-500 rounded-lg hover:bg-gray-100">
-                          <MessageSquare className="h-5 w-5" />
+                        <button
+                          onClick={() => setViewEmail(item)}
+                          className="p-2 text-gray-400 hover:text-gray-500 rounded-lg hover:bg-gray-100"
+                        >
+                          <Mail className="h-5 w-5" />
                         </button>
                         <button
                           onClick={() => setViewCustomer(item)}
@@ -253,6 +259,10 @@ export default function Inquiry() {
             onClose={() => setViewForm(false)}
             onSubmit={(data) => console.log(data)}
           />
+        )}
+
+        {viewEmail && (
+          <EmailModal customer={viewEmail} onClose={() => setViewEmail(null)} />
         )}
 
         {viewCustomer && (
