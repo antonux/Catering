@@ -35,14 +35,14 @@ const Menu = ({selectedFilter}) => {
           .filter(item => item.category.includes(category))
           .map(item => (
             <motion.div
-              key={item.id}
+              key={item._id}
               className="bg-[#333333] w-[18rem] h-[20.5rem] rounded-b-md"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5 }}
             >
-              <div key={item.id} className="bg-[#333333] w-[18rem] h-[20.5rem] rounded-b-md">
+              <div key={item._id} className="bg-[#333333] w-[18rem] h-[20.5rem] rounded-b-md">
                 <img className="h-[13rem] w-[18rem] object-cover" src={`http://localhost:4000${item.image}`} alt={item.name} />
                 <div className="mt-5 pb-2 pl-5 menuNavBg text-white">
                   <h1 className="text-start text-[#fff82b] font-roboto h-[32px] text-[17px] font-normal">{item.name}</h1>

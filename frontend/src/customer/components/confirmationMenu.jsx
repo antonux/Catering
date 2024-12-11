@@ -58,7 +58,7 @@ const ConfirmationMenu = () => {
       <div className="relative flex gap-10 w-full pt-5 pb-6 px-6 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-sm">
         {cards.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             onClick={() => {
               if (!selectedItems.includes(item.name)) {
                 handleCardClick(item);
