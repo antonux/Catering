@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
+import { Plus, SoupIcon } from "lucide-react";
 
 function Menu() { 
 
@@ -28,6 +29,7 @@ function Menu() {
         (selectedSubcategory === "all" || menu.category.includes(selectedSubcategory)) &&
         menu.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const [showDishAdd, setShowDishAdd] = useState(false);
 
     const handleCategoryClick = (category) => {
       setSelectedCategory((prevCategory) => (prevCategory === category ? "all" : category));
@@ -54,15 +56,15 @@ function Menu() {
         <>
             <button
                 className={`m-5 flex items-center border w-[200px] shadow-md rounded-lg ${
-                selectedCategory === "soup" ? "bg-gray-400" : "bg-white"
+                selectedCategory === "soup" ? "bg-gray-600 text-white" : "bg-white "
                 }`}
                 onClick={() => handleCategoryClick("soup")}
             >
-                <h1 className="p-2 mx-auto text-[18px] font-medium">SOUP</h1>
+                <h1 className="p-2 mx-auto text-[18px] font-medium">STARTERS</h1>
             </button>
             <button
                 className={`m-5 flex items-center border w-[200px] shadow-md rounded-lg ${
-                selectedCategory === "main-entree" ? "bg-gray-400" : "bg-white"
+                selectedCategory === "main-entree" ? "bg-gray-600 text-white" : "bg-white"
                 }`}
                 onClick={() => handleCategoryClick("main-entree")}
             >
@@ -70,7 +72,7 @@ function Menu() {
             </button>
             <button
                 className={`m-5 flex items-center border w-[200px] shadow-md rounded-lg ${
-                selectedCategory === "dessert" ? "bg-gray-400" : "bg-white"
+                selectedCategory === "dessert" ? "bg-gray-600 text-white" : "bg-white"
                 }`}
                 onClick={() => handleCategoryClick("dessert")}
             >
@@ -80,16 +82,17 @@ function Menu() {
     )
 
     const MenuDisplay = (
-        <div className="flex flex-1 bg-white">
+        <div className="flex flex-1 bg-slate-100">
             <div className="flex-col h-full w-full">
                 <h1 className="p-4 font-medium text-[24px]">Menu Items</h1>
                 <hr className=" mx-auto w-[98%] border-t border-gray-950"/>
                 <div className="flex flex-1 ">
                     {/* 1st PANEL */}
-                    <div className="flex flex-col w-[70%] overflow-hidden">
+                    <div className="flex flex-col overflow-hidden">
                         {/* SEARCHBAR */}
-                        <div className="flex flex-1">
-                            <div className="relative border m-5 p-3 w-[280px] rounded-lg">
+                        <div className="flex-col">
+                          <div className="flex">
+                            <div className="relative border m-5 p-3 w-[500px] rounded-lg bg-white">
                                 <input
                                 className="w-full focus:outline-none"
                                 type="text"
@@ -98,7 +101,12 @@ function Menu() {
                                 onChange={(e) => setSearchQuery(e.target.value)} // Update search query
                                 />
                             </div>
-                            <FilterButton/>
+                            <button className="flex items-center border m-5 p-2  font-thin text-white bg-green-700 rounded-lg" onClick={() => setShowDishAdd(true)}><Plus className="m-1"></Plus>Add Dish</button>
+                          </div>
+                            <h1 className="ml-5 font-semibold text-[24px] flex">Category <SoupIcon className="m-2"></SoupIcon> </h1>
+                            <div className="flex flex-1">
+                              <FilterButton/>
+                            </div>
                         </div>
                         {/* Subcategory Dropdown */}
                         {selectedCategory === "main-entree" && (
@@ -108,7 +116,7 @@ function Menu() {
                             />
                         )}
                         {/* MENU ITEMS CONTAINER */}
-                        <div className="flex flex-wrap overflow-y-auto h-[800px]">                          
+                        <div className="flex flex-wrap overflow-y-auto h-[80vh] max-h-[70vh] scroll-smooth">                          
                         {filteredItems.length > 0 ? (
                             filteredItems.map((menu, index) => (
                             <MenuItem
@@ -126,19 +134,28 @@ function Menu() {
                         )}
                         </div>
                     </div>
-                    {selectedDish ? (
-                      <DishAction
-                        DishID={selectedDish.menuID}
-                        DishName={selectedDish.name}
-                        Image={selectedDish.image}
-                        Category={selectedDish.category}
-                        subCategory={selectedDish.subCategory || ""}
-                        Desc={selectedDish.desc}
-                        Condition={true}
-                        onClose={() => setSelectedDish(null)}
-                      />
-                    ) : (
-                      <DishAdd />
+                    {selectedDish && (
+                      <div className="fixed top-10 right-5 flex z-50">
+                        <div className="bg-white rounded-lg shadow-lg p-6 relative">
+                          <DishAction
+                            DishID={selectedDish.menuID}
+                            DishName={selectedDish.name}
+                            Image={selectedDish.image}
+                            Category={selectedDish.category}
+                            subCategory={selectedDish.subCategory || ""}
+                            Desc={selectedDish.desc}
+                            Condition={true}
+                            onClose={() => setSelectedDish(null)}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {showDishAdd && (
+                      <div className="fixed top-10 right-5 flex z-50">
+                        <div className="bg-white rounded-lg shadow-lg p-6 relative">
+                          <DishAdd onClose={() => setShowDishAdd(false)}></DishAdd>
+                        </div>
+                      </div>
                     )}
                 </div>
             </div>
@@ -150,7 +167,7 @@ function Menu() {
 
 // MENU ITEM FOR READ
 const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClick }) => (
-    <button className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col"
+    <button className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col bg-white"
       onClick={onClick}>
       <img className="w-full h-[150px] object-cover rounded-t-lg" src={Image} alt={DishName} />
       <h1 className="mx-auto mt-2 text-lg font-semibold">{DishName}</h1>
@@ -159,7 +176,7 @@ const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClic
 )
 
 //SECOND PANEL COMPONENTS CREATE MENU ITEMS
-function DishAdd(){
+function DishAdd({onClose}){
   const [imageSrc, setImageSrc] = useState("/assets/admin/image.png");
   const [dishName, setDishName] = useState("");
   const [description, setDescription] = useState("");
@@ -167,6 +184,7 @@ function DishAdd(){
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
+  const [showDishAdd, setShowDishAdd] = useState(false);
 
   const handleCategoryChange = (e) => {
     const category = e.target.value;
@@ -232,9 +250,15 @@ function DishAdd(){
   };
 
   return(
-      <>
-        <div className="flex flex-col m-5 w-[30%] h-[100%]">
-          <h1 className="mx-auto font-semibold">Add Dish</h1>
+    <>
+      <div className="flex flex-1">
+        <div className="flex flex-col">
+          <div className="flex flex-1">
+            <h1 className="px-4 py-2 mx-auto font-semibold">Dish Detail</h1>
+            <button onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+              Close
+            </button>
+          </div>
           <input type="text" placeholder={"Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg" value={dishName} onChange={(e) => setDishName(e.target.value)}/>
           <button className="relative m-5 h-[300px] group" onClick={handleImageClick}>
               <img src={imageSrc} className="w-full h-full object-cover rounded-lg"/>
@@ -245,14 +269,14 @@ function DishAdd(){
           <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
           {/* CATEGORY AND SUBCAT */}
           <div className="flex-col">
-            <select className="m-5 p-2 w-[30%] border" onChange={handleCategoryChange} value={selectedSelection}>
+            <select className="m-5 p-2 border" onChange={handleCategoryChange} value={selectedSelection}>
                 <option value="">Dish Type</option>
                 <option value="soup">SOUP</option>
                 <option value="main-entree">MAINS</option>
                 <option value="dessert">DESSERT</option>
             </select>
             {selectedSelection === "main-entree" && (
-              <select className="m-5 p-2 w-[30%] border" onChange={handleSubcategoryChange} value={selectedSubcategory}>
+              <select className="m-5 p-2 border" onChange={handleSubcategoryChange} value={selectedSubcategory}>
                 <option value="">Dish Subcategory</option>
                 <option value="pork">Pork</option>
                 <option value="beef">Beef</option>
@@ -261,15 +285,16 @@ function DishAdd(){
               </select>
             )}
           </div>
-          <textarea type="text" placeholder={"Dish Decription"} className="m-5 p-2 focus:outline-none border h-[150px]" value={description} onChange={(e) => setDescription(e.target.value)}/>
+          <textarea type="text" placeholder={"Dish Decription"} className=" p-2 focus:outline-none border h-[150px]" value={description} onChange={(e) => setDescription(e.target.value)}/>
           {/* HANDLE CREATE*/}
           <div className="flex-col item">
-            <button className="m-5 p-2 w-[20%] rounded bg-green-700"  onClick={handleAddDish} >
+            <button className="m-5 p-2 rounded bg-green-700"  onClick={handleAddDish} >
               <h1 className="font-semibold text-white">ADD DISH</h1>
             </button>
           </div>
       </div>
-    </>
+    </div>
+  </>
   )
 }
 
@@ -402,7 +427,7 @@ function DishAction({DishID, DishName, Image, Category, subCategory, Desc, Condi
 
   return(
       <>
-        <div className="flex flex-col m-5 w-[30%] h-[100%]">
+        <div className="flex flex-col">
           <div className="flex flex-1">
             <h1 className="px-4 py-2 mx-auto font-semibold">Dish Detail</h1>
             <button onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
@@ -455,7 +480,7 @@ function DishAction({DishID, DishName, Image, Category, subCategory, Desc, Condi
 // FLOATING SUBCATEGORY FOR MAINS
 const SubcategoryDropdown = ({ selectedSubcategory, setSelectedSubcategory }) => (
     <div className="relative">
-      <div className="absolute right-10 bg-white border rounded-lg shadow-md p-3 z-10">
+      <div className="flex bottom-10 left-1/2 transform -translate-x-1/2  fixed bg-white border rounded-lg shadow-md p-3 z-10">
         <button
           className={`block px-4 py-2 w-full text-left ${
             selectedSubcategory === "all" ? "bg-gray-200" : ""
