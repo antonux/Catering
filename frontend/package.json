@@ -24,6 +24,7 @@
     "react-router-dom": "^6.27.0",
     "react-signature-canvas": "^1.0.6",
     "react-tag-input-component": "^2.0.2",
+    "recharts": "^2.14.1",
     "tailwind-scrollbar": "^3.1.0"
   },
   "devDependencies": {
