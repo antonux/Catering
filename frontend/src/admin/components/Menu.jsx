@@ -47,7 +47,7 @@ function Menu() {
       category: menu.category[0], // First category
       subCategory: menu.category[1] || "", // Subcategory if available
       desc: menu.desc
-    });
+    }, setShowDishAdd(false),);
   };
 
 
