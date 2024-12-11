@@ -12,35 +12,35 @@ const schedEvents = [
     name: "Josef Huelende Virtucio",
     email: "virtucio123@gmail.com",
     event: "Wedding Event",
-    date: "2024-12-08T17:30:00", // ISO Format
+    date: "2024-12-15T17:30:00", // ISO Format
     status: "Pending",
   },
   {
     name: "Marc Antoine Remigoso",
     email: "antoine@gmail.com",
     event: "Wedding Event",
-    date: "2024-12-09T17:30:00",
+    date: "2024-12-16T17:30:00",
     status: "On Hold",
   },
   {
     name: "Marc Antoine Remigoso",
     email: "antoine@gmail.com",
     event: "Birthday Event",
-    date: "2024-12-19T17:30:00",
+    date: "2024-12-17T17:30:00",
     status: "Confirmed",
   },
   {
     name: "Marc Antoine Remigoso",
     email: "antoine@gmail.com",
     event: "Birthday Event",
-    date: "2024-12-10T17:30:00",
+    date: "2024-12-13T17:30:00",
     status: "Confirmed",
   },
   {
     name: "Marc Antoine Remigoso",
     email: "antoine@gmail.com",
     event: "Birthday Event",
-    date: "2024-12-10T17:30:00",
+    date: "2024-12-14T17:30:00",
     status: "Confirmed",
   },
 ];

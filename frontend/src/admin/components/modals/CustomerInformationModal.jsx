@@ -92,10 +92,14 @@ const CustomerInformationModal = ({ customer, onClose }) => {
               <div className="text-center">
                 <p className="text-sm text-gray-500 mb-1">Date of Event</p>
                 <p className="text-gray-700">
-                  {format(
-                    new Date(customer.eventDate.split("/").reverse().join("-")),
-                    "MMMM dd, yyyy"
-                  )}
+                  {customer.eventDate
+                    ? format(
+                        new Date(
+                          customer.eventDate.split("/").reverse().join("-")
+                        ),
+                        "MMMM dd, yyyy"
+                      )
+                    : "To be determined"}
                 </p>
               </div>
               <div className="flex flex-col space-y-1 ">
