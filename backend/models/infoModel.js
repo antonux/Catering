@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const infoSchema = new Schema({
     eventDate: {
         type: Date,
-        required: true
+        required: false
     },
     email: {
         type: String,

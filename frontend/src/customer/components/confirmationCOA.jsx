@@ -147,7 +147,7 @@ const ConfirmationCOA = () => {
           <div className="signat flex flex-col items-center">
             <h1 className='text-center text-base font-medium bg-transparent block'>I/We Accept:</h1>
             <SignatureCanvas penColor='black' ref={sigCanvasRef}
-              canvasProps={{ width: 325, height: 150, className: `sigCanvas bg-[#f8f9fd] rounded-lg border-[1px] border-[#343d3f] ${isDownloading ? 'bg-transparent border-[0px]' : ''}` }} />
+              canvasProps={{ width: 325, height: 150, className: `sigCanvas bg-[#f8f9fd] rounded-lg border-[1px] border-[#343d3f] ${isDownloading ? 'bg-transparent border-none' : ''}` }} />
             <input type="text" placeholder='Enter your full name' className={`leading-8 mt-1 z-50 border-b-[1px] border-[#343d3f] focus:outline-none text-center w-2/3 ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`} />
             <p className={`text-center z-50 font-medium ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`}>Signature over printed name</p>
             <div className="mt-2 space-x-2 flex">

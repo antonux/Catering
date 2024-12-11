@@ -10,7 +10,6 @@ import AdminMenu from './pages/AdminMenu';
 // Layout
 import MainLayout from './layouts/MainLayout';
 
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -20,7 +19,6 @@ const router = createBrowserRouter(
       <Route path='Menu' element={<AdminMenu />} />
       <Route path='Archive' element={<AdminArchive />} />
       <Route path='Settings' element={<AdminProfile />} />
-      
     </Route>
   )
 );
