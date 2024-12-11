@@ -159,11 +159,11 @@ const ConfirmationMenu = ({MenuData}) => {
           />
           <div className="flex flex-col gap-2 w-full h-[27rem] bg-[#f5f5f5] pt-7 pb-3">
             <div className="flex pl-8 gap-6 text-[#4f4d4d]">
-              <button className={`${activeCategory("all")}`} onClick={() => handleFilterChange("all")}>All</button>
-              <button className={`${activeCategory("pork")}`} onClick={() => handleFilterChange("pork")}>Pork</button>
-              <button className={`${activeCategory("poultry")}`} onClick={() => handleFilterChange("poultry")}>Poultry</button>
-              <button className={`${activeCategory("beef")}`} onClick={() => handleFilterChange("beef")}>Beef</button>
-              <button className={`${activeCategory("vegetable")}`} onClick={() => handleFilterChange("vegetable")}>Vegetables</button>
+              <button type="button" className={`${activeCategory("all")}`} onClick={() => handleFilterChange("all")}>All</button>
+              <button type="button" className={`${activeCategory("pork")}`} onClick={() => handleFilterChange("pork")}>Pork</button>
+              <button type="button" className={`${activeCategory("poultry")}`} onClick={() => handleFilterChange("poultry")}>Poultry</button>
+              <button type="button" className={`${activeCategory("beef")}`} onClick={() => handleFilterChange("beef")}>Beef</button>
+              <button type="button" className={`${activeCategory("vegetable")}`} onClick={() => handleFilterChange("vegetable")}>Vegetables</button>
             </div>
             {renderCards()}
             <div className="div w-full items-center justify-center flex mt-3">
