@@ -4,9 +4,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-const infoRoutes = require('./routes/info')
+const infoRoutes = require('./routes/request')
 const menuRoutes = require('./routes/menu');
-
 
 // express app
 const app = express()
@@ -25,8 +24,8 @@ const path = require("path");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // routes
-app.use('/api/info',infoRoutes)
-app.use('/api/menu', menuRoutes);
+app.use('/api/request',infoRoutes)
+app.use('/api/menu', menuRoutes); 
 
 // connection
 mongoose.connect(process.env.MONGO_URI)

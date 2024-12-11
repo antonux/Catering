@@ -19,7 +19,7 @@ export default function Inquiry() {
 
   useEffect(() => {
     const fetchInquiries = async () => {
-      const response = await fetch("http://localhost:4000/api/info");
+      const response = await fetch("http://localhost:4000/api/request");
       const json = await response.json();
 
       if (response.ok) {

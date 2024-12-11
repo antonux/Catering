@@ -1,3 +1,5 @@
+import {useState, useEffect } from 'react';
+import { X, Mail } from 'lucide-react'
 const EmailModal = ({ customer, onClose }) => {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
