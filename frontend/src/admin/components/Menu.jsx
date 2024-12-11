@@ -98,7 +98,7 @@ function Menu() {
                     onChange={(e) => setSearchQuery(e.target.value)} // Update search query
                   />
                 </div>
-                <button className="flex items-center z-50 border m-5 p-2 px-3 font-thin text-white bg-green-700 rounded-lg" onClick={() => setShowDishAdd(true)}><Plus className="m-1"></Plus>Add Dish</button>
+                <button className="flex items-center border m-5 p-2 px-3 z-50 font-thin text-white bg-green-700 rounded-lg" onClick={() => {{setSelectedDish(null), setShowDishAdd(true)}}}><Plus className="m-1"></Plus>Add Dish</button>
               </div>
               <h1 className="ml-5 font-semibold text-[24px] flex">Category <SoupIcon className="m-2"></SoupIcon> </h1>
               <div className="flex flex-1 z-50">
@@ -145,7 +145,7 @@ function Menu() {
                   subCategory={selectedDish.subCategory || ""}
                   Desc={selectedDish.desc}
                   Condition={true}
-                  onClose={() => setSelectedDish(null)}
+                  onClose={() => {setSelectedDish(null), setShowDishAdd(false)}}
                 />
               </div>
             </div>
@@ -153,7 +153,7 @@ function Menu() {
           {showDishAdd && (
             <div className="fixed top-5 right-5 flex z-50">
               <div className="bg-white rounded-lg shadow-lg p-6 relative">
-                <DishAdd onClose={() => setShowDishAdd(false)}></DishAdd>
+                <DishAdd onClose={() => {setSelectedDish(null), setShowDishAdd(false)}}></DishAdd>
               </div>
             </div>
           )}
