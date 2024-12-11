@@ -47,7 +47,7 @@ function Menu() {
       category: menu.category[0], // First category
       subCategory: menu.category[1] || "", // Subcategory if available
       desc: menu.desc
-    });
+    }, setShowDishAdd(false),);
   };
 
 
@@ -59,21 +59,21 @@ function Menu() {
           }`}
         onClick={() => handleCategoryClick("soup")}
       >
-        <h1 className="p-2 mx-auto text-[18px] font-medium">STARTERS</h1>
+        <h1 className="p-2 mx-auto text-[18px] font-medium">Starter</h1>
       </button>
       <button
         className={`m-5 flex items-center border w-[200px] shadow-md z-50 rounded-lg ${selectedCategory === "main-entree" ? "bg-gray-600 text-white" : "bg-white"
           }`}
         onClick={() => handleCategoryClick("main-entree")}
       >
-        <h1 className="p-2 mx-auto text-[18px] font-medium">MAINS</h1>
+        <h1 className="p-2 mx-auto text-[18px] font-medium">Main</h1>
       </button>
       <button
         className={`m-5 flex items-center border w-[200px] shadow-md z-50 rounded-lg ${selectedCategory === "dessert" ? "bg-gray-600 text-white" : "bg-white"
           }`}
         onClick={() => handleCategoryClick("dessert")}
       >
-        <h1 className="p-2 mx-auto text-[18px] font-medium">DESSERTS</h1>
+        <h1 className="p-2 mx-auto text-[18px] font-medium">Dessert</h1>
       </button>
     </>
   )
