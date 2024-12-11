@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import CustomTagInput from "./confirmationCustomTagInput";
 
-const ConfirmationMenu = () => {
+const ConfirmationMenu = ({MenuData}) => {
   const [selectedSoup, setSelectedSoup] = useState([]);
   const [selectedMain, setSelectedMain] = useState([]);
   const [selectedDessert, setSelectedDessert] = useState([]);
@@ -22,6 +22,10 @@ const ConfirmationMenu = () => {
     ];
     setSelectedItems(updatedSelectedItems);
   }, [selectedSoup, selectedMain, selectedDessert]);
+
+  useEffect(() => {
+    MenuData(selectedItems); 
+  }, [selectedItems, MenuData]);
 
   const activeCategory = (category) =>
     `${category == activeFilter
@@ -58,7 +62,7 @@ const ConfirmationMenu = () => {
       <div className="relative flex gap-10 w-full pt-5 pb-6 px-6 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-sm">
         {cards.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             onClick={() => {
               if (!selectedItems.includes(item.name)) {
                 handleCardClick(item);
@@ -137,7 +141,7 @@ const ConfirmationMenu = () => {
             </div>
             {renderCards("soup")}
             <div className="div w-full items-center justify-center flex mt-3">
-              <button onClick={handleSoupAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
+              <button type="button" onClick={handleSoupAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
                 .filter(item => item.category.includes("soup"))  // Filter for items with category "soup"
                 .some(item => item.name.includes(selectedCard)) ? "hover:scale-105 hover:shadow-xl hover:border-[#c7b391] bg-[#618b60]" : "bg-gray-300 pointer-events-none"}  rounded-3xl shadow-md transition-transform duration-300`}>
                 Add
@@ -163,7 +167,7 @@ const ConfirmationMenu = () => {
             </div>
             {renderCards()}
             <div className="div w-full items-center justify-center flex mt-3">
-              <button onClick={handleMainAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
+              <button type="button" onClick={handleMainAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
                 .filter(item => item.category.includes("main-entree"))  // Filter for items with category "soup"
                 .some(item => item.name.includes(selectedCard)) ? "hover:scale-105 hover:shadow-xl hover:border-[#c7b391] bg-[#618b60]" : "bg-gray-300 pointer-events-none"}  rounded-3xl shadow-md transition-transform duration-300`}>
                 Add
@@ -184,7 +188,7 @@ const ConfirmationMenu = () => {
             </div>
             {renderCards("dessert")}
             <div className="div w-full items-center justify-center flex mt-3">
-              <button onClick={handleDessertAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
+              <button type="button" onClick={handleDessertAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
                 .filter(item => item.category.includes("dessert"))  // Filter for items with category "soup"
                 .some(item => item.name.includes(selectedCard)) ? "hover:scale-105 hover:shadow-xl hover:border-[#c7b391] bg-[#618b60]" : "bg-gray-300 pointer-events-none"}  rounded-3xl shadow-md transition-transform duration-300`}>
                 Add

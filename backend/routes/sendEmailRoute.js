@@ -2,13 +2,11 @@ const nodemailer = require("nodemailer");
 
 // Create transporter
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: process.env.EMAIL_PORT === "465", // Set to true if using SSL (port 465 for SSL, 587 for TLS)
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
+  service : 'Gmail',
+  auth : {
+    user : 'christabanao331@gmail.com',
+    pass : 'rupuiyssstrnqmhs'
+  }
 });
 
 // Define the email route

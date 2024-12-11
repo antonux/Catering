@@ -189,21 +189,18 @@ const CalendarSchedule = ({ schedEvents, onDayClick }) => {
                     <div
                       key={index}
                       className={`
-            w-full flex items-center px-1 py-0.5 text-left 
-            text-[10px] truncate rounded-sm hover:scale-105 hover:shadow-md
-            ${
-              event.event.toLowerCase().includes("wedding")
-                ? "bg-blue-500 text-white"
-                : event.event.toLowerCase().includes("birthday")
-                ? "bg-red-500 text-white"
-                : "bg-gray-200 text-gray-800"
-            }
-          `}
+                        w-full flex items-center 
+                        px-1.5 py-0.5 rounded-md text-[10px] 
+                        font-medium truncate
+                        ${
+                          event.event.toLowerCase().includes("wedding")
+                            ? "bg-pink-500 text-white"
+                            : event.event.toLowerCase().includes("birthday")
+                            ? "bg-green-500 text-white"
+                            : "bg-gray-200 text-gray-800"
+                        }
+                      `}
                     >
-                      <Dot
-                        className="w-2 h-2 flex-shrink-0 text-green-600 mr-1"
-                        size={8}
-                      />
                       <span className="truncate">{event.event}</span>
                     </div>
                   ))}

@@ -27,7 +27,7 @@ const RequestForm = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await fetch('http://localhost:4000/api/info', {
+      const response = await fetch('http://localhost:4000/api/request', {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
