@@ -98,7 +98,7 @@ function Menu() {
                     onChange={(e) => setSearchQuery(e.target.value)} // Update search query
                   />
                 </div>
-                <button className="flex items-center border m-5 p-2  font-thin text-white bg-green-700 rounded-lg" onClick={() => setShowDishAdd(true)}><Plus className="m-1"></Plus>Add Dish</button>
+                <button className="flex items-center border m-5 p-2 px-3 font-thin text-white bg-green-700 rounded-lg" onClick={() => {setShowDishAdd(true);}}><Plus className="m-1"></Plus>Add Dish</button>
               </div>
               <h1 className="ml-5 font-semibold text-[24px] flex">Category <SoupIcon className="m-2"></SoupIcon> </h1>
               <div className="flex flex-1">
@@ -164,7 +164,7 @@ function Menu() {
 
 // MENU ITEM FOR READ
 const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClick }) => (
-  <button className="m-5 w-[270px] h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col bg-white"
+  <button className="m-5 w-[270px] transition hover:scale-105 h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col bg-white"
     onClick={onClick}>
     <img className="w-full h-[150px] object-cover rounded-t-lg" src={Image} alt={DishName} />
     <h1 className="mx-auto mt-2 text-lg font-semibold">{DishName}</h1>
@@ -249,7 +249,7 @@ function DishAdd({ onClose }) {
   return (
     <>
       <div className="flex flex-1">
-        <div className="flex flex-col">
+        <div className="flex flex-col h-[37rem]">
           <div className="flex flex-1">
             <h1 className="px-4 py-2 mx-auto font-semibold">Dish Detail</h1>
             <button onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
@@ -257,8 +257,10 @@ function DishAdd({ onClose }) {
             </button>
           </div>
           <input type="text" placeholder={"Dish Name"} className="focus:outline-none border m-5 p-2 rounded-lg" value={dishName} onChange={(e) => setDishName(e.target.value)} />
-          <button className="relative m-5 h-[300px] group" onClick={handleImageClick}>
-            <img src={imageSrc} className="w-full h-full object-cover rounded-lg" />
+          <button className="relative m-5 w-[300px] h-[200px] group" onClick={handleImageClick}>
+            <div className="w-full h-full flex justify-center">
+              <img src={imageSrc} className="w-fukk h-full rounded-lg" />
+            </div>
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span className="text-white text-lg font-semibold">Upload Photo</span>
             </div>
@@ -266,7 +268,7 @@ function DishAdd({ onClose }) {
           <input type="file" accept="image/" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
           {/* CATEGORY AND SUBCAT */}
           <div className="flex-col">
-            <select className="m-5 p-2 border" onChange={handleCategoryChange} value={selectedSelection}>
+            <select className="mx-5 p-2 border" onChange={handleCategoryChange} value={selectedSelection}>
               <option value="">Dish Type</option>
               <option value="soup">SOUP</option>
               <option value="main-entree">MAINS</option>
@@ -282,7 +284,7 @@ function DishAdd({ onClose }) {
               </select>
             )}
           </div>
-          <textarea type="text" placeholder={"Dish Decription"} className=" p-2 focus:outline-none border h-[150px]" value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea type="text" placeholder={"Dish Decription"} className="mx-5 mt-3 p-2 focus:outline-none border h-[150px]" value={description} onChange={(e) => setDescription(e.target.value)} />
           {/* HANDLE CREATE*/}
           <div className="flex-col item">
             <button className="m-5 p-2 rounded bg-green-700" onClick={handleAddDish} >
