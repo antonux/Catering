@@ -161,12 +161,14 @@ const ConfirmationCOA = () => {
             <p className={`text-center z-50 ${isDownloading ? "translate-y-[-3rem] bg-transparent" : ""}`}>Signature over printed name</p>
             <div className="mt-2 space-x-2 flex">
               <button
+                type='button'
                 onClick={clearCanvas}
                 className={`button-class px-6 py-[3px] bg-red-500 text-white rounded hover:bg-red-600 ${isDownloading ? "hidden" : "block"}`}
               >
                 Clear
               </button>
               <button
+                type='button'
                 onClick={undoLastStroke}
                 className={`button-class px-6 py-[3px] bg-blue-500 text-white rounded hover:bg-blue-600 ${isDownloading ? "hidden" : "block"}`}
               >
@@ -202,7 +204,7 @@ const ConfirmationCOA = () => {
           <h1 className='text-center italic font-medium'>Upload Contract of Agreement for verification</h1>
           <div className='flex justify-between w-full px-3 pt-6 mb-10'>
             <div>
-              <button className='underline hover:text-gray-600' onClick={downloadAsImage}>Download Contract</button>
+              <button type='button' className='underline hover:text-gray-600' onClick={downloadAsImage}>Download Contract</button>
             </div>
             <div>
               <input
@@ -213,6 +215,7 @@ const ConfirmationCOA = () => {
               />
               {!isUploaded && (
                 <button
+                  type='button'
                   className='underline hover:text-gray-600'
                   onClick={() => document.getElementById('fileUpload').click()}
                 >
@@ -224,10 +227,6 @@ const ConfirmationCOA = () => {
               )}
             </div>
           </div>
-          <button className='bg-green-500 mt-10 text-white font-normal py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500'>
-            Submit Form
-          </button>
-
         </div>
       </div>
       {/* end of div */}
