@@ -1,17 +1,27 @@
 
-import React, { useState } from "react";
-import { TagsInput } from "react-tag-input-component";
+import React, { useState, useEffect } from "react";
+import CustomTagInput from "./confirmationCustomTagInput";
 
 const ConfirmationMenu = () => {
   const [selectedSoup, setSelectedSoup] = useState([]);
   const [selectedMain, setSelectedMain] = useState([]);
   const [selectedDessert, setSelectedDessert] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedCard, setSelectedCard] = useState(null);
 
   const [activeFilter, setActiveFilter] = useState("all");
 
   const menuItems = menu();
+
+  useEffect(() => {
+    const updatedSelectedItems = [
+      ...selectedSoup,
+      ...selectedMain,
+      ...selectedDessert
+    ];
+    setSelectedItems(updatedSelectedItems);
+  }, [selectedSoup, selectedMain, selectedDessert]);
 
   const activeCategory = (category) =>
     `${category == activeFilter
@@ -33,7 +43,7 @@ const ConfirmationMenu = () => {
 
   const handleCardClick = (item) => {
     if (item.name == selectedCard) {
-      setSelectedCard("");
+      setSelectedCard(null);
       return
     }
     setSelectedCard(item.name);
@@ -44,15 +54,23 @@ const ConfirmationMenu = () => {
     const cards = categoryName
       ? menuItems.filter(item => item.category.includes(categoryName))
       : filteredMenu;
-
-
     return (
       <div className="relative flex gap-10 w-full pt-5 pb-6 px-6 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-sm">
         {cards.map((item) => (
-          <div key={item.id} onClick={() => handleCardClick(item)} className={`bg-[#313131] w-[12rem] h-[14.5rem] cursor-pointer rounded-b-md border-[1.3px] flex-shrink-0 hover:scale-105 transition-transform duration-300 
-            ${selectedCard === item.name ? 'border-[#585858] scale-105' : 'border-[#d3d3d3]'}`}>
-            <div className={`absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded duration-300 ease-in-out ${selectedCard === item.name ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
+          <div
+            key={item.id}
+            onClick={() => {
+              if (!selectedItems.includes(item.name)) {
+                handleCardClick(item);
+              }
+            }}
+            className={`bg-[#313131] w-[12rem] h-[14.5rem] cursor-pointer rounded-b-md border-[1.3px] flex-shrink-0 ${!selectedItems.includes(item.name) ? "hover:scale-105" : "opacity-80"}  transition-transform duration-300 
+            ${(selectedCard === item.name && !selectedItems.includes(item.name)) ? 'border-[#585858] scale-105' : 'border-[#d3d3d3]'}`}>
+            <div className={`absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded duration-300 ease-in-out ${(selectedCard === item.name && !selectedItems.includes(item.name)) ? 'opacity-100 scale-105' : 'opacity-0 scale-0'}`}>
               Selected
+            </div>
+            <div className={`absolute bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded duration-300 ease-in-out ${selectedItems.includes(item.name) ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
+              Added
             </div>
             <img className="h-[8rem] w-[12rem] object-cover" src={item.image} alt={item.name} />
             <div className="mt-5 pb-2 px-4 menuNavBg text-white w-full">
@@ -69,6 +87,36 @@ const ConfirmationMenu = () => {
     )
   };
 
+  const handleSoupAdd = () => {
+    if (selectedCard && !selectedSoup.includes(selectedCard)) {
+      setSelectedSoup((prev) => [...prev, selectedCard]);
+      setSelectedCard(null);
+    }
+    if (selectedSoup.includes(selectedCard)) {
+      alert(selectedCard + " already added.")
+    }
+  };
+
+  const handleMainAdd = () => {
+    if (selectedCard && !selectedMain.includes(selectedCard)) {
+      setSelectedMain((prev) => [...prev, selectedCard]);
+      setSelectedCard(null);
+    }
+    if (selectedMain.includes(selectedCard)) {
+      alert(selectedCard + " already added.")
+    }
+  };
+
+  const handleDessertAdd = () => {
+    if (selectedCard && !selectedDessert.includes(selectedCard)) {
+      setSelectedDessert((prev) => [...prev, selectedCard]);
+      setSelectedCard(null);
+    }
+    if (selectedDessert.includes(selectedCard)) {
+      alert(selectedCard + " already added.")
+    }
+  };
+
   return (
     <div className="w-full p-10 space-y-4">
       <h1 className="font-roboto text-5xl font-bold text-[#222222] tracking-wide">Confirmation Menu</h1>
@@ -77,20 +125,21 @@ const ConfirmationMenu = () => {
       <div className="flex flex-col gap-7">
         {/* Soup ------------------- */}
         <div className="div flex flex-col gap-4">
-          {/* <pre>{JSON.stringify(selected)}</pre> */}
-          <TagsInput
-            value={selectedSoup}
-            onChange={setSelectedSoup}
-            name="Soup"
-            placeHolder="Soup"
+          {/* <pre>{JSON.stringify(selectedItems)}</pre> */}
+          <CustomTagInput
+            tags={selectedSoup}
+            setTags={setSelectedSoup}
           />
+
           <div className="flex flex-col gap-2 w-full h-[27rem] bg-[#f5f5f5] pt-7 pb-3">
             <div className="flex pl-8 gap-6 text-[#4f4d4d]">
               <div className="px-6 rounded-full text-white bg-[#4f4d4d] py-[3.5px]">Soup</div>
             </div>
             {renderCards("soup")}
             <div className="div w-full items-center justify-center flex mt-3">
-              <button className="text-base w-[8rem] py-2 bg-[#618b60] text-[#f2f1ed] font-light hover:border-[#c7b391] rounded-3xl shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-300">
+              <button onClick={handleSoupAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
+                .filter(item => item.category.includes("soup"))  // Filter for items with category "soup"
+                .some(item => item.name.includes(selectedCard)) ? "hover:scale-105 hover:shadow-xl hover:border-[#c7b391] bg-[#618b60]" : "bg-gray-300 pointer-events-none"}  rounded-3xl shadow-md transition-transform duration-300`}>
                 Add
               </button>
             </div>
@@ -100,11 +149,9 @@ const ConfirmationMenu = () => {
         {/* Main ------------------- */}
         <div className="div flex flex-col gap-4">
           {/* <pre>{JSON.stringify(selected)}</pre> */}
-          <TagsInput
-            value={selectedMain}
-            onChange={setSelectedMain}
-            name="MainEntree"
-            placeHolder="Main Entree"
+          <CustomTagInput
+            tags={selectedMain}
+            setTags={setSelectedMain}
           />
           <div className="flex flex-col gap-2 w-full h-[27rem] bg-[#f5f5f5] pt-7 pb-3">
             <div className="flex pl-8 gap-6 text-[#4f4d4d]">
@@ -116,7 +163,9 @@ const ConfirmationMenu = () => {
             </div>
             {renderCards()}
             <div className="div w-full items-center justify-center flex mt-3">
-              <button className="text-base w-[8rem] py-2 bg-[#618b60] text-[#f2f1ed] font-light hover:border-[#c7b391] rounded-3xl shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-300">
+              <button onClick={handleMainAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
+                .filter(item => item.category.includes("main-entree"))  // Filter for items with category "soup"
+                .some(item => item.name.includes(selectedCard)) ? "hover:scale-105 hover:shadow-xl hover:border-[#c7b391] bg-[#618b60]" : "bg-gray-300 pointer-events-none"}  rounded-3xl shadow-md transition-transform duration-300`}>
                 Add
               </button>
             </div>
@@ -125,11 +174,9 @@ const ConfirmationMenu = () => {
 
         <div className="div flex flex-col gap-4">
           {/* <pre>{JSON.stringify(selected)}</pre>*/}
-          <TagsInput
-            value={selectedDessert}
-            onChange={setSelectedDessert}
-            name="Dessert"
-            placeHolder="Dessert"
+          <CustomTagInput
+            tags={selectedDessert}
+            setTags={setSelectedDessert}
           />
           <div className="flex flex-col gap-2 w-full h-[27rem] bg-[#f5f5f5] pt-7 pb-3">
             <div className="flex pl-8 gap-6 text-[#4f4d4d]">
@@ -137,7 +184,9 @@ const ConfirmationMenu = () => {
             </div>
             {renderCards("dessert")}
             <div className="div w-full items-center justify-center flex mt-3">
-              <button className="text-base w-[8rem] py-2 bg-[#618b60] text-[#f2f1ed] font-light hover:border-[#c7b391] rounded-3xl shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-300">
+              <button onClick={handleDessertAdd} className={`text-base w-[8rem] py-2  text-[#f2f1ed] font-light ${menuItems
+                .filter(item => item.category.includes("dessert"))  // Filter for items with category "soup"
+                .some(item => item.name.includes(selectedCard)) ? "hover:scale-105 hover:shadow-xl hover:border-[#c7b391] bg-[#618b60]" : "bg-gray-300 pointer-events-none"}  rounded-3xl shadow-md transition-transform duration-300`}>
                 Add
               </button>
             </div>
@@ -166,7 +215,7 @@ const ConfirmationMenu = () => {
   )
 }
 
-const menu = () =>{
+const menu = () => {
   const menuItems = [
     { id: 1, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba1", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
     { id: 2, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba2", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
