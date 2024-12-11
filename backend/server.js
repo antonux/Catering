@@ -4,7 +4,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-const infoRoutes = require('./routes/request')
+const infoRoutes = require('./routes/info')
+const menuRoutes = require('./routes/menu');
 
 
 // express app
@@ -19,8 +20,13 @@ app.use((req, res, next) => {
     next()
 })
 
+//uploading of static images in the project folder
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // routes
 app.use('/api/info',infoRoutes)
+app.use('/api/menu', menuRoutes);
 
 // connection
 mongoose.connect(process.env.MONGO_URI)
