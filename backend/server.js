@@ -23,10 +23,6 @@ app.use((req, res, next) => {
 const path = require("path");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Uploading static images in the project folder
-const path = require("path");
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 // Routes
 app.use('/api/request', infoRoutes);
 app.use('/api/menu', menuRoutes);
