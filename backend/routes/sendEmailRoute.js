@@ -1,11 +1,10 @@
-const cors = require("cors");
 const nodemailer = require("nodemailer");
 
 // Create transporter
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
-  secure: false, // Change to true if using SSL
+  secure: process.env.EMAIL_PORT === "465", // Set to true if using SSL (port 465 for SSL, 587 for TLS)
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -14,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 // Define the email route
 const sendEmailRoute = (app) => {
-  app.post("/api/sendemail", cors(), async (req, res) => {
+  app.post("/api/sendemail", async (req, res) => {
     const { to, subject, text } = req.body;
 
     // Validate input
@@ -29,7 +28,15 @@ const sendEmailRoute = (app) => {
       from: process.env.EMAIL_USER,
       to,
       subject,
-      text: 'hfisdfhu',
+      text,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2>${subject}</h2>
+          <p>${text}</p>
+          <hr />
+          <small>Sent from your Event Management System</small>
+        </div>
+      `,
     };
 
     try {

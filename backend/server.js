@@ -1,40 +1,40 @@
-require('dotenv').config()
-
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-
-const infoRoutes = require('./routes/request')
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const mailer = require('./routes/sendEmailRoute');
+const infoRoutes = require('./routes/request');
 const menuRoutes = require('./routes/menu');
 
 // express app
-const app = express()
-// Add before routes
-app.use(cors())
+const app = express();
 
 // middleware
-app.use(express.json())
-app.use((req, res, next) => {
-    console.log(req.path, req.method)
-    next()
-})
+app.use(cors()); // Apply CORS globally
+app.use(express.json()); // Middleware to parse JSON requests
 
-//uploading of static images in the project folder
+// Log requests for debugging
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
+
+// Uploading static images in the project folder
 const path = require("path");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// routes
-app.use('/api/request',infoRoutes)
-app.use('/api/menu', menuRoutes); 
+// Routes
+app.use('/api/request', infoRoutes);
+app.use('/api/menu', menuRoutes);
+mailer(app); // Call the email route
 
-// connection
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        // listen for requests
-        app.listen(process.env.PORT, () => {
-            console.log('connected to db & listening on port', process.env.PORT)
-        })
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log('Connected to DB & listening on port', process.env.PORT);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
