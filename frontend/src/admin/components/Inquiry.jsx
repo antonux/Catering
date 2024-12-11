@@ -36,10 +36,13 @@ export default function Inquiry() {
   const [dateFilter, setDateFilter] = useState("all");
   const [filterSearch, setFilterSearch] = useState("");
   const [nameSortOrder, setNameSortOrder] = useState("asc");
-
   const filteredInformation = request
     .filter((item) => {
-      const eventDate = new Date(item.eventDate.split("/").reverse().join("-"));
+      // Handle missing eventDate gracefully
+      const eventDateStr = item.eventDate || ""; // Fallback to empty string if null or undefined
+      const eventDate = eventDateStr
+        ? new Date(eventDateStr.split("/").reverse().join("-"))
+        : null;
 
       const eventMatch =
         selectedEvent === "All Events" || item.eventType === selectedEvent;
@@ -49,10 +52,10 @@ export default function Inquiry() {
 
       const dateMatch =
         dateFilter === "all" ||
-        (dateFilter === "today" && isToday(eventDate)) ||
-        (dateFilter === "thisWeek" && isThisWeek(eventDate)) ||
-        (dateFilter === "thisMonth" && isThisMonth(eventDate)) ||
-        (dateFilter === "thisYear" && isThisYear(item.eventDate));
+        (dateFilter === "today" && eventDate && isToday(eventDate)) ||
+        (dateFilter === "thisWeek" && eventDate && isThisWeek(eventDate)) ||
+        (dateFilter === "thisMonth" && eventDate && isThisMonth(eventDate)) ||
+        (dateFilter === "thisYear" && eventDate && isThisYear(eventDate));
 
       const searchQuery = filterSearch.toLowerCase();
       const searchMatch =
@@ -189,12 +192,17 @@ export default function Inquiry() {
                           </span>
                           <span className="text-orange-300">•</span>
                           <span className="text-sm text-gray-500">
-                            {format(
-                              new Date(
-                                item.eventDate.split("/").reverse().join("-")
-                              ),
-                              "MMMM dd, yyyy"
-                            )}{" "}
+                            {item.eventDate
+                              ? format(
+                                  new Date(
+                                    item.eventDate
+                                      .split("/")
+                                      .reverse()
+                                      .join("-")
+                                  ),
+                                  "MMMM dd, yyyy"
+                                )
+                              : "To be determined"}{" "}
                           </span>
                         </div>
                       </div>
