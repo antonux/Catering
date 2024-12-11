@@ -1,28 +1,24 @@
 import { motion } from "framer-motion";
+import React from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Menu = ({selectedFilter}) => {
 
   // Sample menu data
-  const menuItems = [
-    { id: 1, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-    { id: 2, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-    { id: 3, desc: "Braised pork belly dish with sweet-savory soy-vinegar sauce", name: "Pork Humba", category: ["main-entree", "pork"], image: "/assets/customer/images/menuHumba.jpg" },
-    { id: 9, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-    { id: 10, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-    { id: 11, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 12, desc: "dadadadad", name: "Mango Float", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 15, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-    { id: 16, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 17, desc: "dadadadad", name: "Mango Float", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 18, desc: "dadadadad", name: "Chicken Cordon Blue", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-    { id: 20, desc: "dadadadad", name: "Chopsuey", category: ["main-entree", "vegetable"], image: "/assets/customer/images/menuChopsuey.jpg" },
-    { id: 21, desc: "dadadadad", name: "Seafood Chowder", category: ["soup"], image: "/assets/customer/images/menuChowder.jpg" },
-    { id: 23, desc: "dadadadad", name: "Chicken Cordon Blue", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-    { id: 24, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-    { id: 27, desc: "dadadadad", name: "Mango Float", category: ["dessert"], image: "/assets/customer/images/menuMango.jpg" },
-    { id: 28, desc: "dadadadad", name: "Chicken Cordon Blue", category: ["main-entree", "poultry"], image: "/assets/customer/images/menuCordon.jpg" },
-    { id: 29, desc: "dadadadad", name: "Beef Caldereta", category: ["main-entree", "beef"], image: "/assets/customer/images/menuCaldereta.jpg" },
-  ];
+  const [menuItems, setMenuItems] = useState([]);
+
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/menu"); // Replace <PORT> with the correct port
+        const data = await response.json();
+        setMenuItems(data);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
+    fetchMenuItems();
+  }, []);
 
   // Filter logic
   const filteredMenu =
@@ -47,7 +43,7 @@ const Menu = ({selectedFilter}) => {
               transition={{ duration: 0.5 }}
             >
               <div key={item.id} className="bg-[#333333] w-[18rem] h-[20.5rem] rounded-b-md">
-                <img className="h-[13rem] w-[18rem] object-cover" src={item.image} alt={item.name} />
+                <img className="h-[13rem] w-[18rem] object-cover" src={`http://localhost:4000${item.image}`} alt={item.name} />
                 <div className="mt-5 pb-2 pl-5 menuNavBg text-white">
                   <h1 className="text-start text-[#fff82b] font-roboto h-[32px] text-[17px] font-normal">{item.name}</h1>
                   <p className=" text-start h-[2.5rem] overflow-hidden font-roboto font-light text-sm">{item.desc}</p>
