@@ -55,21 +55,21 @@ function Menu() {
   const FilterButton = () => (
     <>
       <button
-        className={`m-5 flex items-center border w-[200px] shadow-md rounded-lg ${selectedCategory === "soup" ? "bg-gray-600 text-white" : "bg-white "
+        className={`m-5 flex items-center border w-[200px] shadow-md z-50 rounded-lg ${selectedCategory === "soup" ? "bg-gray-600 text-white" : "bg-white "
           }`}
         onClick={() => handleCategoryClick("soup")}
       >
         <h1 className="p-2 mx-auto text-[18px] font-medium">STARTERS</h1>
       </button>
       <button
-        className={`m-5 flex items-center border w-[200px] shadow-md rounded-lg ${selectedCategory === "main-entree" ? "bg-gray-600 text-white" : "bg-white"
+        className={`m-5 flex items-center border w-[200px] shadow-md z-50 rounded-lg ${selectedCategory === "main-entree" ? "bg-gray-600 text-white" : "bg-white"
           }`}
         onClick={() => handleCategoryClick("main-entree")}
       >
         <h1 className="p-2 mx-auto text-[18px] font-medium">MAINS</h1>
       </button>
       <button
-        className={`m-5 flex items-center border w-[200px] shadow-md rounded-lg ${selectedCategory === "dessert" ? "bg-gray-600 text-white" : "bg-white"
+        className={`m-5 flex items-center border w-[200px] shadow-md z-50 rounded-lg ${selectedCategory === "dessert" ? "bg-gray-600 text-white" : "bg-white"
           }`}
         onClick={() => handleCategoryClick("dessert")}
       >
@@ -89,19 +89,19 @@ function Menu() {
             {/* SEARCHBAR */}
             <div className="flex-col">
               <div className="flex">
-                <div className="relative border m-5 p-3 w-[500px] rounded-lg bg-white">
+                <div className="relative border m-5 p-3 w-[500px] z-50 rounded-lg bg-white">
                   <input
-                    className="w-full focus:outline-none"
+                    className="w-full focus:outline-none z-50"
                     type="text"
                     placeholder="Search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)} // Update search query
                   />
                 </div>
-                <button className="flex items-center border m-5 p-2 px-3 font-thin text-white bg-green-700 rounded-lg" onClick={() => {setShowDishAdd(true);}}><Plus className="m-1"></Plus>Add Dish</button>
+                <button className="flex items-center z-50 border m-5 p-2 px-3 font-thin text-white bg-green-700 rounded-lg" onClick={() => setShowDishAdd(true)}><Plus className="m-1"></Plus>Add Dish</button>
               </div>
               <h1 className="ml-5 font-semibold text-[24px] flex">Category <SoupIcon className="m-2"></SoupIcon> </h1>
-              <div className="flex flex-1">
+              <div className="flex flex-1 z-50">
                 <FilterButton />
               </div>
             </div>
@@ -113,22 +113,25 @@ function Menu() {
               />
             )}
             {/* MENU ITEMS CONTAINER */}
-            <div className="flex flex-wrap overflow-y-auto h-[80vh] max-h-[70vh] scroll-smooth">
-              {filteredItems.length > 0 ? (
-                filteredItems.map((menu, index) => (
-                  <MenuItem
-                    key={menu._id}
-                    Image={`http://localhost:4000${menu.image}`}
-                    DishName={menu.name}
-                    DishDesc={menu.desc}
-                    MainCategory={menu.category[0]}
-                    subCategory={menu.category[1] || ""}
-                    onClick={() => handleMenuItemClick(menu)}
-                  />
-                ))
-              ) : (
-                <p className="mx-auto mt-4 text-gray-500">No menu items available.</p>
-              )}
+            <div className="flex absolute pt-[20rem] translate-y-[-4.5rem] h-screen scroll-smooth">
+              <div className="flex flex-wrap overflow-y-auto">
+                {filteredItems.length > 0 ? (
+                  filteredItems.map((menu, index) => (
+                    <MenuItem
+                      key={menu._id}
+                      Image={`http://localhost:4000${menu.image}`}
+                      DishName={menu.name}
+                      DishDesc={menu.desc}
+                      MainCategory={menu.category[0]}
+                      subCategory={menu.category[1] || ""}
+                      onClick={() => handleMenuItemClick(menu)}
+                    />
+                  ))
+                ) : (
+                  <p className="mx-auto mt-4 text-gray-500">No menu items available.</p>
+                )}
+              </div>
+
             </div>
           </div>
           {selectedDish && (
