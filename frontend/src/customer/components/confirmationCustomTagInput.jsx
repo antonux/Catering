@@ -14,6 +14,7 @@ const CustomTagInput = ({ tags, setTags }) => {
           >
             <span>{tag}</span>
             <button
+              type="button"
               onClick={() => removeTag(tag)}
               className="ml-2 pb-1 text-3xl text-gray-500 hover:text-red-700"
             >
