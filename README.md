@@ -32,7 +32,6 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) installed
-- [MongoDB](https://www.mongodb.com/) or a hosted MongoDB database
 
 ### Steps
 1. **Clone the repository**:
