@@ -59,7 +59,7 @@ function Menu() {
           }`}
         onClick={() => handleCategoryClick("soup")}
       >
-        <h1 className="p-2 mx-auto text-[18px] font-medium">Starter</h1>
+        <h1 className="p-2 mx-auto text-[18px] font-medium">Soup</h1>
       </button>
       <button
         className={`m-5 flex items-center border w-[200px] shadow-md z-50 rounded-lg ${selectedCategory === "main-entree" ? "bg-gray-600 text-white" : "bg-white"
@@ -167,11 +167,17 @@ function Menu() {
 
 // MENU ITEM FOR READ
 const MenuItem = ({ Image, DishName, DishDesc, MainCategory, subCategory, onClick }) => (
-  <button className="m-5 w-[270px] transition hover:scale-105 h-[300px] border-[2px] rounded-lg shadow-lg flex flex-col bg-white"
-    onClick={onClick}>
-    <img className="w-full h-[150px] object-cover rounded-t-lg" src={Image} alt={DishName} />
-    <h1 className="mx-auto mt-2 text-lg font-semibold">{DishName}</h1>
-    <p className="ml-4 mt-1 text-sm text-gray-700">{DishDesc}</p>
+<button 
+    className="align-middle m-5 w-[270px] transition hover:scale-105 h-[300px] border-[2px] border-gray-200 rounded-lg shadow-lg flex flex-col bg-white hover:shadow-xl"
+    onClick={onClick}
+  >
+    <img 
+      className="w-full h-[150px] object-cover rounded-t-lg" 
+      src={Image} 
+      alt={DishName} 
+    />
+    <h1 className="mx-auto mt-2 text-lg font-semibold text-gray-800">{DishName}</h1>
+    <p className="text-center w-full px-4 mt-1 text-sm text-gray-700">{DishDesc}</p>
   </button>
 )
 
