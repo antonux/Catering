@@ -41,8 +41,7 @@ The **Virtucio Caterers Reservation System** is a web application designed to st
 
 2. **Run 'npm install' on both frontend & backend folders**
 
-3. **Run 'npm run dev' on either the frontend or backend**
+3. **Run 'npm run dev' on both frontend & backend**
 
-4. **Run 'npm install multer' on backend
+4. **Fill in all the env variables**
 
-5. **Run 'npm install axios' frontend
